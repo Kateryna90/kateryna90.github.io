@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>99 Problems — Kateryna Kovalenko</title>
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,800;1,300&family=Caveat:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:         #FBFBF8;
+      --impact-bg:  #F4F0E8;
+      --learn-bg:   #EDE8DC;
+      --bg-card:    #F4F2EB;
+      --text:       #333333;
+      --dark-700:   #4F4F4F;
+      --dark-500:   #6D6D6D;
+      --muted:      #B8B8B8;
+      --accent:     #B54F0B;
+      --line:       #B8B8B8;
+      --tag-purple: #EDD4FF;
+      --tag-blue:   #C0EEFF;
+      --tag-green:  #CDFF8B;
+      --font-h:    'Unbounded', sans-serif;
+      --font-b:    'Inter', sans-serif;
+      --font-hand: 'Caveat', cursive;
+      --max: 1200px;
+      --pad: clamp(24px, 5.5vw, 80px);
+      --gut: clamp(24px, 8.3vw, 120px);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px; padding: 0 var(--pad);
+      background: var(--bg); border-bottom: 1px solid var(--line);
+    }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-h); font-size: 12px; font-weight: 600;
+      color: var(--dark-700); letter-spacing: 0.04em; transition: color .2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-back svg { width: 16px; height: 16px; }
+    .nav-logo { font-family: var(--font-h); font-weight: 700; font-size: 15px; }
+
+    /* TAGS */
+    .tag {
+      font-family: var(--font-b); font-size: 11px; font-weight: 500;
+      color: var(--text); border-radius: 100px; padding: 6px 10px;
+    }
+    .tag.purple { background: var(--tag-purple); }
+    .tag.blue   { background: var(--tag-blue); }
+    .tag.green  { background: var(--tag-green); }
+
+    /* HERO */
+    .hero { padding-top: 72px; padding-left: var(--gut); padding-right: var(--gut); }
+    .hero-text {
+      max-width: var(--max); margin: 0 auto;
+      padding: 60px 0 160px;
+    }
+    .cs-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px; }
+    .cs-title {
+      font-family: var(--font-h);
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.03em; margin-bottom: 20px;
+    }
+    .cs-subtitle {
+      font-size: 18px; font-weight: 300; color: var(--dark-700);
+      max-width: 560px; line-height: 1.6; margin-bottom: 48px;
+    }
+    .cs-meta {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      border-top: 1px solid var(--line); padding-top: 24px;
+    }
+    .cs-meta-item { min-width: 140px; }
+    .cs-meta-item:nth-child(1) { flex: 0 0 180px; }
+    .cs-meta-item:nth-child(2) { flex: 1 1 0; }
+    .cs-meta-item:nth-child(3) { flex: 1 1 0; }
+    .cs-meta-item:nth-child(4) { flex: 0 0 auto; min-width: 200px; }
+    .cs-meta-label {
+      font-family: var(--font-h); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .cs-meta-val { font-size: 15px; color: var(--text); white-space: nowrap; }
+
+    /* HERO COVER — pixel-exact to Figma node 120:83, reference frame 1440x831 */
+    .cover-divider {
+      border: none;
+      border-top: 1px solid var(--line);
+      margin: 0 var(--pad);
+    }
+    .hero-cover {
+      background: var(--bg);
+      overflow: hidden;
+    }
+    .hero-cover-wrap {
+      position: relative;
+      max-width: 1440px;
+      margin: 0 auto;
+      height: 831px;
+    }
+    .result-divider {
+      position: absolute; left: 80px; top: 0; width: 1280px; height: 1px;
+      background: var(--line); border: none; margin: 0;
+    }
+    .result-lbl {
+      position: absolute; left: 80px; top: 60px; margin: 0;
+      font-family: var(--font-b); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--dark-700);
+    }
+    .hero-cover-inner { display: contents; }
+    .cover-left {
+      position: absolute; left: 120px; top: 180px; width: 646px;
+    }
+    .phones-row {
+      position: absolute; left: 818px; top: 61px; width: 557px;
+    }
+    /* Phone shell */
+    .ph {
+      border-radius: 24px 24px 0 0;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      border-bottom: none;
+      overflow: hidden; flex-shrink: 0;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.14), 0 4px 10px rgba(0,0,0,0.07);
+    }
+    .ph.lg { width: 200px; }
+    .ph.sm { width: 162px; }
+
+    /* If user drops in a real screenshot */
+    .ph img {
+      display: block; width: 100%; height: auto;
+      border-radius: 0;
+    }
+
+    /* Placeholder UI (shown when no img) */
+    .ph-ui {
+      background: #1A3020;
+      padding: 0;
+      min-height: 440px;
+      display: flex; flex-direction: column;
+    }
+    .ph-ui.chat-bg { background: #0E1A12; }
+    .ph-ui.diary-bg { background: #F5F2EB; }
+
+    /* App header — removed (phones now on light background, no status bar needed) */
+
+    /* Home screen UI */
+    .home-header {
+      background: linear-gradient(135deg, #2D5A3A 0%, #1A3A24 50%, #E8760A 100%);
+      padding: 14px; min-height: 80px;
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .home-greet { font-size: 11px; color: rgba(255,255,255,0.6); font-family: var(--font-b); }
+    .home-name { font-size: 17px; font-weight: 700; color: #fff; font-family: var(--font-b); }
+    .home-date { font-size: 10px; color: rgba(255,255,255,0.45); font-family: var(--font-b); }
+
+    .home-body { background: #F5F2EB; flex: 1; padding: 12px 10px; display: flex; flex-direction: column; gap: 10px; }
+    .home-section-lbl { font-size: 11px; font-weight: 600; color: #333; font-family: var(--font-b); margin-bottom: 6px; }
+
+    .news-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .news-card {
+      border-radius: 10px; overflow: hidden;
+      background: #ddd;
+      aspect-ratio: 1.1;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .news-card.n1 { background: linear-gradient(135deg, #6B9E7A, #3A6B4A); }
+    .news-card.n2 { background: linear-gradient(135deg, #2D5A3A, #4A8A5A); }
+    .news-card-lbl { font-size: 8px; font-weight: 600; color: #fff; padding: 5px 7px; background: rgba(0,0,0,0.3); }
+
+    .menu-item {
+      display: flex; align-items: center; gap: 8px;
+      background: #fff; border-radius: 10px; padding: 8px 10px;
+    }
+    .menu-icon { width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0; }
+    .menu-icon.hospitals { background: linear-gradient(135deg, #8DC63F, #5A9A2A); }
+    .menu-icon.meds { background: linear-gradient(135deg, #E8760A, #C55A00); }
+    .menu-icon.donate { background: linear-gradient(135deg, #E8760A, #B54F0B); }
+    .menu-name { font-size: 10px; font-weight: 500; color: #333; font-family: var(--font-b); }
+    .menu-arr { font-size: 10px; color: #999; margin-left: auto; }
+
+    .app-tab {
+      display: flex; gap: 0; background: #fff;
+      border-top: 1px solid #e8e8e8; padding: 8px 0 6px;
+    }
+    .tab-item {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+    }
+    .tab-icon { font-size: 14px; }
+    .tab-lbl { font-size: 7px; color: #999; font-family: var(--font-b); }
+    .tab-lbl.active { color: #E8760A; }
+    .tab-icon.active { filter: none; }
+
+    /* Chat list UI */
+    .chat-header { padding: 14px 14px 10px; background: #F5F2EB; }
+    .chat-tabs { display: flex; gap: 0; border-bottom: 2px solid #e0e0e0; }
+    .chat-tab { flex: 1; text-align: center; padding: 8px 4px; font-size: 10px; font-weight: 600; color: #999; font-family: var(--font-b); }
+    .chat-tab.active { color: #2D5A3A; border-bottom: 2px solid #2D5A3A; margin-bottom: -2px; }
+    .chat-list { background: #F5F2EB; flex: 1; padding: 6px 8px; display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+    .chat-row {
+      display: flex; align-items: center; gap: 8px;
+      background: #fff; border-radius: 10px; padding: 7px 9px;
+    }
+    .chat-ava { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #fff; font-family: var(--font-b); }
+    .chat-info { flex: 1; min-width: 0; }
+    .chat-name { font-size: 8px; font-weight: 600; color: #333; font-family: var(--font-b); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chat-preview { font-size: 7px; color: #999; font-family: var(--font-b); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chat-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+    .chat-time { font-size: 7px; color: #999; font-family: var(--font-b); }
+    .chat-badge { background: #E8760A; color: #fff; font-size: 7px; font-weight: 700; border-radius: 10px; padding: 1px 5px; font-family: var(--font-b); }
+
+    /* Diary UI */
+    .diary-header { background: #F5F2EB; padding: 12px 14px; display: flex; align-items: center; gap: 8px; }
+    .diary-back { font-size: 14px; color: #333; }
+    .diary-title { font-size: 13px; font-weight: 700; color: #333; font-family: var(--font-b); }
+    .diary-body { background: #F5F2EB; flex: 1; padding: 10px 12px; display: flex; flex-direction: column; gap: 10px; }
+    .diary-week { display: flex; align-items: center; justify-content: space-between; }
+    .diary-week-lbl { font-size: 10px; font-weight: 500; color: #333; font-family: var(--font-b); }
+    .chart-area { height: 60px; display: flex; align-items: flex-end; gap: 4px; }
+    .bar { flex: 1; border-radius: 3px 3px 0 0; background: #8DC63F; }
+    .bar-label { font-size: 7px; color: #999; font-family: var(--font-b); text-align: center; margin-top: 3px; }
+    .chart-wrap { width: 100%; }
+    .bar-labels { display: flex; gap: 4px; }
+    .bar-lbl-item { flex: 1; text-align: center; font-size: 7px; color: #999; font-family: var(--font-b); }
+    .diary-month-link { font-size: 9px; color: #2D5A3A; text-align: right; font-weight: 500; font-family: var(--font-b); }
+    .symptoms-lbl { font-size: 11px; font-weight: 600; color: #333; font-family: var(--font-b); }
+    .symptom-row {
+      display: flex; align-items: flex-start; gap: 8px;
+      background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 7px 9px;
+    }
+    .sym-day { width: 24px; height: 24px; border: 1px solid #8DC63F; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 600; color: #2D5A3A; font-family: var(--font-b); flex-shrink: 0; }
+    .sym-txt { font-size: 8px; color: #666; font-family: var(--font-b); line-height: 1.4; }
+
+    /* COVER STATS — left column */
+    .cover-stats { /* part of cover-left */ }
+    .lbl-light {
+      font-family: var(--font-b); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--dark-700); margin-bottom: 28px;
+    }
+    .impact-head {
+      font-family: var(--font-h);
+      font-size: 28px;
+      font-weight: 700; line-height: 1.2;
+      letter-spacing: -0.025em; color: var(--text);
+      width: 618px; height: 175px; margin-bottom: 0;
+      margin-left: 0;
+    }
+    .impact-head em { color: var(--accent); font-style: normal; }
+    /* H2 accent spans */
+    .impact-head .h-accent { color: var(--accent); }
+    .impact-head .h-ul { text-decoration: underline; }
+
+    /* Stats row (horizontal 3-column card) — Figma: 646x177, row 40/40 inset, items 198/198/168 */
+    .stats-col {
+      position: absolute; left: 0; top: 295px; width: 646px;
+      display: flex; flex-direction: row;
+      padding: 40px; box-sizing: border-box;
+      border-radius: 24px;
+      background: var(--bg-card);
+    }
+    .stat-row-item {
+      flex: 0 0 198px; width: 198px;
+      display: flex; flex-direction: column;
+      gap: 8px;
+      padding: 0 24px;
+      box-sizing: border-box;
+      position: relative;
+    }
+    .stat-row-item:last-child { flex-basis: 168px; width: 168px; }
+    .stat-row-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 8px; bottom: 8px;
+      width: 1px;
+      background: var(--line);
+    }
+    .stat-num {
+      font-family: var(--font-h);
+      font-size: 40px;
+      font-weight: 800; line-height: 1;
+      letter-spacing: -0.04em; color: var(--dark-700);
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-desc { font-size: 11px; font-weight: 400; color: var(--text); line-height: 1.5; }
+
+    /* SECTIONS */
+    .cs-section { max-width: var(--max); margin: 0 auto; padding: 80px 0; }
+    .divider { border: none; border-top: 1px solid var(--line); margin: 0 var(--pad); }
+
+    /* SURVEY / RESEARCH — Figma: label at 80, content block 960 centered */
+    .survey-sec { padding: 80px var(--pad); }
+    .survey-inner { max-width: 960px; margin: 0 auto; }
+    .survey-head { max-width: 525px; }
+    .survey-head .cs-h2 { font-size: 28px; letter-spacing: 0; line-height: 1.2; margin-bottom: 12px; }
+    .survey-head .cs-p { font-size: 16px; line-height: 1.2; max-width: none; }
+
+    .lbl {
+      font-family: var(--font-b); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--dark-700); margin-bottom: 28px;
+    }
+    .cs-h2 {
+      font-family: var(--font-h);
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 700; line-height: 1.15;
+      letter-spacing: -0.025em; margin-bottom: 20px;
+    }
+    .cs-p {
+      font-size: 16px; font-weight: 300; color: var(--dark-700);
+      max-width: 620px; line-height: 1.75;
+    }
+    .cs-p + .cs-p { margin-top: 14px; }
+
+    /* Two-col */
+    .two-col { display: grid; grid-template-columns: minmax(0,566px) minmax(0,490px); justify-content: space-between; gap: 40px; align-items: end; margin-top: 40px; }
+
+    /* Challenge outer wrapper — label at x=80, y=60 */
+    .challenge-outer { padding: 60px var(--gut) 0; }
+    .challenge-outer .lbl { margin-left: calc(var(--pad) - var(--gut)); }
+    .challenge-sec { padding-top: 0; padding-bottom: 120px; }
+    .challenge-sec .cs-h2 { font-size: 28px; letter-spacing: 0; line-height: 1.2; margin-bottom: 24px; }
+    .challenge-sec .cs-p { font-size: 16px; line-height: 1.2; }
+    .challenge-sec .cs-p + .cs-p { margin-top: 24px; }
+
+    /* Pain list */
+    .pain-list { display: flex; flex-direction: column; gap: 32px; }
+    .pain-item { display: flex; gap: 12px; align-items: flex-start; }
+    .pain-n { font-family: var(--font-b); font-size: 24px; font-weight: 700; color: var(--accent); flex-shrink: 0; min-width: 32px; }
+    .pain-t { font-size: 16px; font-weight: 300; color: var(--dark-700); line-height: 1.2; }
+    .pain-t strong { display: block; font-size: 18px; font-weight: 700; color: var(--text); line-height: 1.15; margin-bottom: 8px; }
+
+    /* Research card */
+    .research-card { background: var(--bg-card); border-radius: 24px; padding: 60px; margin-top: 40px; }
+    .research-intro { font-size: 16px; font-weight: 300; color: var(--dark-700); max-width: 506px; line-height: 1.2; margin-bottom: 32px; }
+    .research-intro strong { font-weight: 500; color: var(--text); }
+    .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .insight-cell { background: #fff; border-radius: 24px; padding: 24px; }
+    .ins-num { font-family: var(--font-h); font-size: 32px; font-weight: 800; letter-spacing: 0; color: var(--dark-700); line-height: 1; margin-bottom: 8px; }
+    .ins-num span { color: var(--accent); }
+    .ins-txt { font-size: 14px; font-weight: 300; color: var(--dark-700); line-height: 1.3; }
+    .who-row { display: flex; gap: 60px; flex-wrap: wrap; margin-top: 24px; padding-top: 33px; border-top: 1px solid var(--line); }
+    .who-big { font-family: var(--font-b); font-size: 24px; font-weight: 700; color: var(--dark-700); }
+    .who-lbl { font-size: 11px; font-weight: 400; color: var(--dark-700); margin-top: 4px; }
+
+    /* DECISIONS — pixel-matched to Figma (frame 1440×734) */
+    .decision-sec { position: relative; background: var(--bg); }
+    .decision-wrap { position: relative; max-width: 1440px; margin: 0 auto; height: 734px; }
+    .dec-divider { position: absolute; left: 80px; top: 0; width: 1280px; height: 1px; background: var(--line); }
+    .dec-lbl { position: absolute; left: 80px; top: 60px; margin: 0; }
+    .dec-text { position: absolute; top: 257px; width: 571px; display: flex; flex-direction: column; gap: 32px; }
+    .dec-text-left { left: 120px; }
+    .dec-text-right { left: 749px; }
+    .dec-paras { display: flex; flex-direction: column; gap: 24px; }
+    .dec-phones { position: absolute; display: block; height: auto; }
+    .dec-phones-right { left: 791px; top: 61px; width: 495px; }
+    .dec-phones-left { left: 145px; top: 80px; width: 518px; }
+    .d-h3 { font-family: var(--font-h); font-size: 28px; font-weight: 700; line-height: 1.2; letter-spacing: 0; color: var(--text); margin: 0; }
+    .d-p { font-size: 16px; font-weight: 300; color: var(--dark-700); line-height: 1.2; margin: 0; }
+
+    /* Phone visual for decisions */
+    .d-visual {
+      border-radius: 20px; overflow: hidden;
+      background: #1C3425;
+      aspect-ratio: 4/5;
+      display: flex; align-items: flex-end; justify-content: center;
+      padding: 40px 0 0;
+    }
+    .d-visual.light { background: #EDE9DF; padding-top: 48px; }
+
+    /* Real image panels for decisions */
+    .d-img { display: flex; align-items: center; justify-content: center; }
+    .d-img img { width: 100%; max-width: 480px; height: auto; display: block; }
+    .phones-row img { width: 100%; height: auto; display: block; }
+
+    .d-phone {
+      width: 62%; background: #F5F2EB;
+      border-radius: 20px 20px 0 0;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-bottom: none; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .d-phone.dark { background: #0E1A12; border-color: rgba(255,255,255,0.06); }
+
+    /* ROLE */
+    .role-section { padding: 60px var(--gut) 160px; }
+    .role-section .lbl { margin-left: calc(var(--pad) - var(--gut)); margin-bottom: 40px; }
+    .role-inner { max-width: var(--max); margin: 0 auto; }
+    .role-inner .cs-h2 { font-size: 28px; letter-spacing: 0; line-height: 1.2; margin-bottom: 0; }
+    .role-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 40px; }
+    .role-item { border-top: 3px solid var(--accent); padding-top: 12px; }
+    .role-h { font-family: var(--font-b); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .role-p { font-size: 16px; font-weight: 300; color: var(--dark-700); line-height: 1.2; }
+
+    /* LEARNINGS */
+    .cs-learn { background: var(--bg); padding: 60px var(--gut) 160px; }
+    .cs-learn .lbl-light { margin-left: calc(var(--pad) - var(--gut)); margin-bottom: 40px; }
+    .cs-learn-inner { max-width: var(--max); margin: 0 auto; }
+    .learn-quote { font-family: var(--font-h); font-size: 28px; font-weight: 700; line-height: 1.2; letter-spacing: 0; color: var(--text); max-width: 594px; margin-bottom: 40px; }
+    .learn-quote em { color: var(--accent); font-style: normal; }
+    .learn-card { background: var(--bg-card); border-radius: 24px; padding: 60px; }
+    .learn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .learn-item { background: #fff; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 8px; }
+    .learn-n { font-family: var(--font-b); font-size: 24px; font-weight: 700; color: var(--accent); margin-bottom: 0; }
+    .learn-h { font-family: var(--font-b); font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 0; line-height: 1.2; }
+    .learn-p { font-size: 16px; font-weight: 300; color: var(--dark-700); line-height: 1.2; }
+
+    /* NEXT */
+    .cs-next { padding: 60px var(--gut) 40px; }
+    .cs-next .next-lbl { margin-left: calc(var(--pad) - var(--gut)); margin-bottom: 40px; }
+    .next-block { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+    .next-lbl { font-family: var(--font-b); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark-700); margin-bottom: 8px; }
+    .next-title { font-family: var(--font-h); font-size: 52px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+    .next-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--text); color: #fff;
+      padding: 12px 16px; border-radius: 8px;
+      border: 1px solid transparent;
+      font-family: var(--font-b); font-size: 14px; font-weight: 500;
+      white-space: nowrap; flex-shrink: 0;
+      transition: background .25s ease, color .25s ease, border-color .25s ease, gap .25s ease;
+    }
+    .next-btn:hover { background: #FBFBF8; border-color: var(--dark-700); color: var(--text); gap: 12px; }
+    .next-btn svg { transition: transform .25s ease; }
+    .next-btn:hover svg { transform: translateX(4px); }
+
+    footer { position: relative; padding: 28px var(--pad) 26px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--font-b); font-weight: 300; font-size: 12px; line-height: 1.5; color: var(--dark-700); }
+    footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--line); }
+
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .two-col, .role-grid { grid-template-columns: 1fr; gap: 40px; align-items: start; }
+      .decision-wrap { height: auto; padding: 40px var(--pad) 0; }
+      .dec-divider { position: static; width: auto; margin-bottom: 24px; }
+      .dec-lbl { position: static; margin-bottom: 24px; }
+      .dec-text { position: static; width: 100%; margin-bottom: 40px; }
+      .dec-phones { position: static; width: 100%; max-width: 420px; }
+      .dec-phones-left, .dec-phones-right { left: auto; top: auto; }
+      .hero-cover-wrap { height: auto; padding: 40px var(--pad) 0; }
+      .result-divider { position: static; width: 100%; margin-bottom: 24px; }
+      .result-lbl { position: static; margin-bottom: 24px; }
+      .hero-cover-inner { display: flex; flex-direction: column; gap: 40px; padding-bottom: 40px; }
+      .cover-left { position: static; width: 100%; }
+      .impact-head { width: 100%; height: auto; margin-left: 0; margin-bottom: 40px; }
+      .stats-col { position: static; width: 100%; flex-wrap: wrap; }
+      .phones-row { position: static; width: 100%; }
+      .phones-row img { max-width: 380px; margin: 0 auto; }
+      .insight-grid { grid-template-columns: 1fr; }
+      .learn-grid { grid-template-columns: 1fr; }
+      .cs-next { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .cs-meta-item { min-width: 100%; padding-right: 0; }
+      .research-card { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-back" href="index.html">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span data-en="Back" data-ua="Назад">Back</span>
+  </a>
+  <span class="nav-logo">Kateryna Kovalenko</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <div class="cs-tags">
+      <span class="tag purple" data-en="B2C" data-ua="B2C">B2C</span>
+      <span class="tag blue" data-en="Mobile" data-ua="Мобільний">Mobile</span>
+      <span class="tag green" data-en="HealthTech" data-ua="HealthTech">HealthTech</span>
+    </div>
+    <h1 class="cs-title">99 Problems</h1>
+    <p class="cs-subtitle"
+      data-en="A mobile app for people with MS in Ukraine. Medications from the state program, hospitals on a map, community chats, and a health diary. Nothing like this existed in one place before."
+      data-ua="Мобільний додаток для людей з РС в Україні. Ліки за держпрограмою, лікарні на карті, тематичні чати і щоденник симптомів. До цього нічого з цього не було в одному місці.">
+      A mobile app for people with MS in Ukraine. Medications from the state program, hospitals on a map, community chats, and a health diary. Nothing like this existed in one place before.
+    </p>
+    <div class="cs-meta">
+      <div class="cs-meta-item">
+        <div class="cs-meta-label" data-en="Year" data-ua="Рік">Year</div>
+        <div class="cs-meta-val">2025</div>
+      </div>
+      <div class="cs-meta-item">
+        <div class="cs-meta-label" data-en="Role" data-ua="Роль">Role</div>
+        <div class="cs-meta-val" data-en="Product Designer (UX/UI)" data-ua="Дизайнер продукту (UX/UI)">Product Designer (UX/UI)</div>
+      </div>
+      <div class="cs-meta-item">
+        <div class="cs-meta-label" data-en="Client" data-ua="Клієнт">Client</div>
+        <div class="cs-meta-val">99problems.org.ua</div>
+      </div>
+      <div class="cs-meta-item">
+        <div class="cs-meta-label" data-en="Research" data-ua="Дослідження">Research</div>
+        <div class="cs-meta-val" data-en="Mixed-methods · Community analysis" data-ua="Кількісно-якісні · Аналіз спільнот">Mixed-methods · Community analysis</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="cover-divider">
+
+<!-- COVER: label top-left, then two-column grid -->
+<div class="hero-cover">
+    <div class="hero-cover-wrap">
+    <!-- РЕЗУЛЬТАТ label: x=80, y=60 -->
+    <div class="result-lbl" data-en="Outcome" data-ua="Результат">Outcome</div>
+
+    <div class="hero-cover-inner">
+
+      <!-- LEFT: H2 (x=120, y=180, w=646) -->
+      <div class="cover-left">
+        <h2 class="impact-head"
+          data-ua="Ми не починали з рішень. Ми почали з дослідження <span class='h-accent'>811 людей.</span><br>Результатом стала<br><span class='h-accent'>перша мобільна платформа</span> для людей з РС в Україні."
+          data-en="We didn't start with solutions. We started with <span class='h-accent'>811 people.</span><br>The result —<br>the <span class='h-accent'>first mobile platform</span> for people with MS in Ukraine.">
+          We didn't start with solutions. We started with <span class="h-accent">811 people.</span><br>The result —<br>the <span class="h-accent">first mobile platform</span> for people with MS in Ukraine.
+        </h2>
+        <div class="stats-col">
+          <div class="stat-row-item">
+            <div class="stat-num">811<span>+</span></div>
+            <div class="stat-desc" data-en="People with MS surveyed before a single screen was designed" data-ua="Людей з РС опитано до першого екрану">People with MS surveyed before a single screen was designed</div>
+          </div>
+          <div class="stat-row-item">
+            <div class="stat-num">99<span>%</span></div>
+            <div class="stat-desc" data-en="Would download or consider the app" data-ua="Завантажили б або розглядали завантаження">Would download or consider the app</div>
+          </div>
+          <div class="stat-row-item">
+            <div class="stat-num">9</div>
+            <div class="stat-desc" data-en="Community chat topics — from research, not assumptions" data-ua="Тематичних чатів — з дослідження, не з припущень">Community chat topics — from research, not assumptions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: phones (slightly smaller) -->
+      <div class="phones-row">
+        <img src="group-1.png" alt="99 Problems app — onboarding and home screens">
+      </div>
+
+    </div><!-- end hero-cover-inner -->
+    </div><!-- end hero-cover-wrap -->
+  </div><!-- end hero-cover -->
+
+<hr class="cover-divider">
+
+<!-- CHALLENGE -->
+<div class="challenge-outer">
+  <div class="lbl" data-en="Challenge" data-ua="Виклик">Challenge</div>
+  <div class="cs-section challenge-sec">
+  <div class="two-col">
+    <div>
+      <h2 class="cs-h2"
+        data-en="The same questions. Thousands of people. One small foundation."
+        data-ua="Однакові питання. Тисячі людей. Один маленький фонд.">The same questions. Thousands of people. One small foundation.</h2>
+      <p class="cs-p"
+        data-en="99problems.org.ua supports people with multiple sclerosis. The foundation kept receiving the same requests about medications, hospitals, and life with MS. The answers existed — but the team had to provide them over and over again."
+        data-ua="Некомерційна організація 99problems.org.ua підтримує людей з розсіяним склерозом. До фонду постійно надходили одні й ті самі запити про ліки, лікарні та життя з РС. Відповіді були, але команді доводилося надавати їх знову і знову.">99problems.org.ua supports people with multiple sclerosis. The foundation kept receiving the same requests about medications, hospitals, and life with MS. The answers existed — but the team had to provide them over and over again.</p>
+      <p class="cs-p"
+        data-en="Useful information and community support already existed — but were scattered across different platforms. Users had to search for answers in multiple channels instead of one convenient place."
+        data-ua="Корисна інформація та підтримка спільноти вже існували, але були розпорошені між різними платформами. Користувачам доводилося шукати відповіді в кількох каналах замість одного зручного місця.">Useful information and community support already existed — but were scattered across different platforms. Users had to search for answers in multiple channels instead of one convenient place.</p>
+    </div>
+    <div class="pain-list">
+      <div class="pain-item">
+        <span class="pain-n">01</span>
+        <p class="pain-t"
+          data-en="<strong>Medication requests kept repeating.</strong> Even though the website existed, people kept coming in with the same questions about medications and hospitals."
+          data-ua="<strong>Запити про ліки постійно повторювалися.</strong> Проблема в тому, що навіть попри наявність сайту люди продовжували звертатися з одними й тими самими питаннями про ліки та лікарні."><strong>Medication requests kept repeating.</strong> Even though the website existed, people kept coming in with the same questions about medications and hospitals.</p>
+      </div>
+      <div class="pain-item">
+        <span class="pain-n">02</span>
+        <p class="pain-t"
+          data-en="<strong>The community was spread across different channels.</strong> People communicated via Viber, Facebook, and Instagram, but had no single space for support, sharing experience, and finding information."
+          data-ua="<strong>Спільнота існувала в різних каналах.</strong> Люди спілкувалися у Viber, Facebook та Instagram, але не мали єдиного простору для підтримки, обміну досвідом та пошуку інформації."><strong>The community was spread across different channels.</strong> People communicated via Viber, Facebook, and Instagram, but had no single space for support, sharing experience, and finding information.</p>
+      </div>
+      <div class="pain-item">
+        <span class="pain-n">03</span>
+        <p class="pain-t"
+          data-en="<strong>Disease progression wasn't tracked systematically.</strong> Symptoms, relapses, and medication intake often ended up in paper notebooks — or weren't recorded at all, even though this information is crucial for people with MS."
+          data-ua="<strong>Перебіг хвороби не відстежувався системно.</strong> Симптоми, загострення та прийом ліків часто залишалися в паперових блокнотах або не фіксувалися взагалі, хоча для людей з РС ця інформація є важливою для контролю захворювання."><strong>Disease progression wasn't tracked systematically.</strong> Symptoms, relapses, and medication intake often ended up in paper notebooks — or weren't recorded at all, even though this information is crucial for people with MS.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- RESEARCH -->
+<div class="survey-sec">
+  <div class="lbl" data-en="Research" data-ua="Дослідження">Research</div>
+  <div class="survey-inner">
+  <div class="survey-head">
+  <h2 class="cs-h2"
+    data-en="The product was shaped by data, not assumptions."
+    data-ua="Продукт сформували не припущення, а дані.">The product was shaped by data, not assumptions.</h2>
+  <p class="cs-p"
+    data-en="I designed and distributed a mixed-methods survey through the foundation's networks. In parallel, I analyzed existing MS communities on Viber, Instagram, and Facebook, mapping recurring topics across hundreds of posts."
+    data-ua="Я розробила та розповсюдила якісно-кількісне опитування через мережі фонду. Паралельно я проаналізувала існуючі спільноти людей з розсіяним склерозом у Viber, Instagram та Facebook, відобразивши повторювані теми в сотнях публікацій.">I designed and distributed a mixed-methods survey through the foundation's networks. In parallel, I analyzed existing MS communities on Viber, Instagram, and Facebook, mapping recurring topics across hundreds of posts.</p>
+  </div>
+
+  <div class="research-card">
+    <p class="research-intro"
+      data-en="<strong>90% of respondents were people living with MS themselves.</strong> 34% had been diagnosed more than 10 years ago. Their answers were consistent and clear."
+      data-ua="<strong>90% респондентів самі були людьми, які живуть з розсіяним склерозом.</strong> 34% мали діагноз понад 10 років тому. Їхні відповіді були послідовними та однозначними.">
+      <strong>90% of respondents were people living with MS themselves.</strong> 34% had been diagnosed more than 10 years ago. Their answers were consistent and clear.
+    </p>
+    <div class="insight-grid">
+      <div class="insight-cell">
+        <div class="ins-num">88<span>%</span></div>
+        <div class="ins-txt"
+          data-en="Named medication and treatment information as the main reason to download the app"
+          data-ua="Назвали інформацію про ліки і лікування головною причиною завантажити такий додаток">Named medication and treatment information as the main reason to download the app</div>
+      </div>
+      <div class="insight-cell">
+        <div class="ins-num">93<span>%</span></div>
+        <div class="ins-txt"
+          data-en="Open to psychological support directly in the app from the community"
+          data-ua="Відкриті до психологічної підтримки безпосередньо в додатку від спільноти">Open to psychological support directly in the app from the community</div>
+      </div>
+      <div class="insight-cell">
+        <div class="ins-num">93<span>%</span></div>
+        <div class="ins-txt"
+          data-en="Would want to track symptoms and keep a health diary"
+          data-ua="Хотіли б відстежувати симптоми та вести щоденник здоров'я">Would want to track symptoms and keep a health diary</div>
+      </div>
+      <div class="insight-cell">
+        <div class="ins-num">76<span>%</span></div>
+        <div class="ins-txt"
+          data-en="Said community support is important or very important"
+          data-ua="Зазначили, що підтримка спільноти важлива або дуже важлива">Said community support is important or very important</div>
+      </div>
+    </div>
+    <div class="who-row">
+      <div class="who-item"><div class="who-big" data-en="Jan 2025" data-ua="Січень 2025р.">Jan 2025</div><div class="who-lbl" data-en="Field period" data-ua="польовий період">Field period</div></div>
+      <div class="who-item"><div class="who-big">811</div><div class="who-lbl" data-en="Survey respondents" data-ua="Опитаних респондентів">Survey respondents</div></div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- DECISION 1 -->
+<div class="decision-sec">
+  <div class="decision-wrap">
+    <div class="dec-divider"></div>
+    <div class="lbl dec-lbl" data-en="Decision 01" data-ua="Рішення 01">Decision 01</div>
+    <div class="dec-text dec-text-left">
+      <h3 class="d-h3" data-en="Built one path from information to getting medication." data-ua="Створила єдиний шлях від інформації до отримання ліків.">Built one path from information to getting medication.</h3>
+      <div class="dec-paras">
+        <p class="d-p" data-en="Turned one of the most frequent user requests into a clear scenario. Users no longer need to separately search for medications, information about them, and hospitals where they can get them. Everything is united in one flow: from choosing a medication to finding the nearest hospital via a map or city search." data-ua="Перетворила один із найчастіших запитів користувачів на зрозумілий сценарій. Користувач більше не шукає окремо ліки, інформацію про них та лікарні, де їх можна отримати. Усе об'єднано в одному потоці: від вибору препарату до пошуку найближчої лікарні через карту або пошук за містом.">Turned one of the most frequent user requests into a clear scenario. Users no longer need to separately search for medications, information about them, and hospitals where they can get them. Everything is united in one flow: from choosing a medication to finding the nearest hospital via a map or city search.</p>
+        <p class="d-p" data-en="I also added the ability to leave medication reviews — helping people with MS share their own treatment experience, while giving the foundation data to support patient needs at the level of state programs." data-ua="Також я додала можливість залишати відгуки про препарати. Це допомагає людям з РС ділитися власним досвідом лікування, а фонд може використовувати для обґрунтування потреб пацієнтів на рівні державних програм.">I also added the ability to leave medication reviews — helping people with MS share their own treatment experience, while giving the foundation data to support patient needs at the level of state programs.</p>
+      </div>
+    </div>
+    <img class="dec-phones dec-phones-right" src="group-2.png" alt="Medication catalog — 99 Problems app">
+  </div>
+</div>
+
+<!-- DECISION 2 -->
+<div class="decision-sec">
+  <div class="decision-wrap">
+    <div class="dec-divider"></div>
+    <div class="lbl dec-lbl" data-en="Decision 02" data-ua="Рішення 02">Decision 02</div>
+    <img class="dec-phones dec-phones-left" src="group-3.png" alt="Community chats — 99 Problems app">
+    <div class="dec-text dec-text-right">
+      <h3 class="d-h3" data-en="Structured the community around user needs." data-ua="Структурувала спільноту навколо потреб користувачів.">Structured the community around user needs.</h3>
+      <div class="dec-paras">
+        <p class="d-p" data-en="Brought communication and support into one space. Instead of switching between Viber, Facebook, and Instagram, users can find information, support, and others' experiences in the app." data-ua="Об'єднала спілкування та підтримку в одному просторі. Замість переходів між Viber, Facebook та Instagram користувачі можуть знаходити інформацію, підтримку та досвід інших людей в застосунку.">Brought communication and support into one space. Instead of switching between Viber, Facebook, and Instagram, users can find information, support, and others' experiences in the app.</p>
+        <p class="d-p" data-en="I divided communication into general chats and interest groups. General chats provide quick access to community support, while groups unite people around specific needs: pregnancy with MS, treatment, physical activity, or psychological support. Users can create groups themselves and invite others." data-ua="Я розділила спілкування на загальні чати та групи за інтересами. Загальні чати забезпечують швидкий доступ до підтримки спільноти, а групи допомагають об'єднувати людей навколо конкретних потреб і життєвих ситуацій: вагітності та материнства з РС, лікування, фізичної активності чи психологічної підтримки. Користувачі можуть самостійно створювати такі групи та запрошувати до них інших учасників.">I divided communication into general chats and interest groups. General chats provide quick access to community support, while groups unite people around specific needs: pregnancy with MS, treatment, physical activity, or psychological support. Users can create groups themselves and invite others.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DECISION 3 -->
+<div class="decision-sec">
+  <div class="decision-wrap">
+    <div class="dec-divider"></div>
+    <div class="lbl dec-lbl" data-en="Decision 03" data-ua="Рішення 03">Decision 03</div>
+    <div class="dec-text dec-text-left">
+      <h3 class="d-h3" data-en="Helped users see patterns, not just symptoms." data-ua="Допомогла бачити закономірності, а не симптоми.">Helped users see patterns, not just symptoms.</h3>
+      <div class="dec-paras">
+        <p class="d-p" data-en="I turned daily entries into a health management tool. Users can record wellbeing, symptoms, medication intake, and relapses in one place — and the system automatically builds a history of changes over time." data-ua="Я перетворила щоденні записи на інструмент для управління здоров'ям. Користувачі можуть фіксувати самопочуття, симптоми, прийом ліків та загострення в одному місці, а система автоматично формує історію змін з часом.">I turned daily entries into a health management tool. Users can record wellbeing, symptoms, medication intake, and relapses in one place — and the system automatically builds a history of changes over time.</p>
+        <p class="d-p" data-en="The collected data becomes a visual health history — helping users notice patterns between symptoms, treatment, and wellbeing. Charts simplify preparation for consultations, and appointment booking helps move quickly from observation to action." data-ua="Зібрані дані перетворюються на візуальну історію стану здоров'я, що допомагає користувачам помічати закономірності між симптомами, лікуванням і самопочуттям. Графіки та історія записів спрощують підготовку до консультацій, а можливість запису до лікаря допомагає швидше перейти від спостереження до дії.">The collected data becomes a visual health history — helping users notice patterns between symptoms, treatment, and wellbeing. Charts simplify preparation for consultations, and appointment booking helps move quickly from observation to action.</p>
+      </div>
+    </div>
+    <img class="dec-phones dec-phones-right" src="group-4.png" alt="Health diary — 99 Problems app">
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- ROLE -->
+<div class="role-section">
+  <div class="lbl" data-en="My Role" data-ua="Моя роль">My Role</div>
+  <div class="role-inner">
+  <h2 class="cs-h2" data-en="Product Designer (UX/UI)" data-ua="Дизайнер продукту (UX/UI)">Product Designer (UX/UI)</h2>
+  <div class="role-grid">
+    <div>
+      <div class="role-item">
+        <div class="role-h" data-en="Research" data-ua="Дослідження">Research</div>
+        <p class="role-p" data-en="Designed and conducted a quantitative survey among 811 respondents. Analyzed MS communities on Viber, Facebook, and Instagram, identifying recurring needs and behavioral patterns that became the foundation of the product's structure and interaction scenarios." data-ua="Розробила та провела кількісне опитування серед 811 респондентів. Проаналізувала спільноти людей з РС у Viber, Facebook та Instagram, виявивши повторювані потреби та патерни поведінки, які стали основою структури продукту та сценаріїв взаємодії.">Designed and conducted a quantitative survey among 811 respondents. Analyzed MS communities on Viber, Facebook, and Instagram, identifying recurring needs and behavioral patterns that became the foundation of the product's structure and interaction scenarios.</p>
+      </div>
+    </div>
+    <div>
+      <div class="role-item">
+        <div class="role-h" data-en="Design" data-ua="Дизайн">Design</div>
+        <p class="role-p" data-en="Defined the information architecture, user flows, and full app interface. Developed the design system, component library, design tokens, and high-fidelity mockups for all key scenarios." data-ua="Спроєктувала інформаційну архітектуру, користувацькі потоки та повний інтерфейс застосунку. Розробила дизайн-систему, бібліотеку компонентів, дизайн-токени та високодеталізовані макети для всіх ключових сценаріїв.">Defined the information architecture, user flows, and full app interface. Developed the design system, component library, design tokens, and high-fidelity mockups for all key scenarios.</p>
+      </div>
+    </div>
+    <div>
+      <div class="role-item">
+        <div class="role-h" data-en="Collaboration" data-ua="Співпраця">Collaboration</div>
+        <p class="role-p" data-en="Worked in a cross-functional team alongside a Product Manager, Business Analyst, Front-end and Back-end developers. Participated in requirements discussions, solution prioritization, and design handoff." data-ua="Працювала в кросфункціональній команді разом із Product Manager, Business Analyst, Front-end та Back-end розробниками. Брала участь в обговоренні вимог, пріоритизації рішень та передачі дизайну в розробку.">Worked in a cross-functional team alongside a Product Manager, Business Analyst, Front-end and Back-end developers. Participated in requirements discussions, solution prioritization, and design handoff.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- LEARNINGS -->
+<div class="cs-learn">
+  <div class="cs-learn-inner">
+    <div class="lbl-light" data-en="What I Learned" data-ua="Що я навчилася">What I Learned</div>
+    <p class="learn-quote" data-en="When 811 people give you the same answer, <em>your job</em> is to stop guessing and <em>start designing.</em>" data-ua="Коли 811 людей дають однакову відповідь, <em>твоя задача</em> — перестати здогадуватися і <em>почати проєктувати.</em>">
+      When 811 people give you the same answer, <em>your job</em> is to stop guessing and <em>start designing.</em>
+    </p>
+    <div class="learn-card">
+      <div class="learn-grid">
+        <div class="learn-item">
+          <span class="learn-n">01</span>
+          <h4 class="learn-h" data-en="Large-scale research removes guesswork" data-ua="Масштабне дослідження прибирає здогадки">Large-scale research removes guesswork</h4>
+          <p class="learn-p" data-en="When hundreds of people point to the same problems, product priorities become obvious." data-ua="Коли сотні людей вказують на одні й ті самі проблеми, пріоритети продукту стають очевидними.">When hundreds of people point to the same problems, product priorities become obvious.</p>
+        </div>
+        <div class="learn-item">
+          <span class="learn-n">02</span>
+          <h4 class="learn-h" data-en="Design must account for context" data-ua="Дизайн має враховувати контекст">Design must account for context</h4>
+          <p class="learn-p" data-en="Legal and medical constraints shape the product just as much as user needs do." data-ua="Юридичні та медичні обмеження впливають на продукт так само, як і потреби користувачів.">Legal and medical constraints shape the product just as much as user needs do.</p>
+        </div>
+        <div class="learn-item">
+          <span class="learn-n">03</span>
+          <h4 class="learn-h" data-en="Products solve more than functional problems" data-ua="Продукт вирішує не лише функціональні задачі">Products solve more than functional problems</h4>
+          <p class="learn-p" data-en="For people with chronic conditions, support, trust, and community can be just as important as the tools themselves." data-ua="Для людей з хронічними захворюваннями підтримка, довіра та спільнота можуть бути не менш важливими за самі інструменти.">For people with chronic conditions, support, trust, and community can be just as important as the tools themselves.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<hr class="divider" />
+
+<!-- NEXT -->
+<div class="cs-next">
+  <div class="next-lbl" data-en="Next Case" data-ua="Наступний кейс">Next Case</div>
+  <div class="next-block">
+    <div class="next-title">EcoTracker</div>
+    <a class="next-btn" href="case-ecotracker.html">
+      <span data-en="View project" data-ua="Переглянути кейс">View project</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Kateryna Kovalenko</span>
+  <span>Designed by me. Coded with Claude.</span>
+</footer>
+
+  <script>
+    const lang = localStorage.getItem('lang') || 'en';
+    document.documentElement.lang = lang === 'ua' ? 'uk' : 'en';
+    document.querySelectorAll('[data-ua][data-en]').forEach(el => {
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+  </script>
+</body>
+</html>

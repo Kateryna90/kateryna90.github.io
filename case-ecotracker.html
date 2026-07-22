@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eco Tracker — Kateryna Kovalenko</title>
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --bg:      #FBFBF8;
+      --card:    #F4F2EB;
+      --white:   #FFFFFF;
+      --text:    #333333;
+      --d7:      #4F4F4F;
+      --d5:      #6D6D6D;
+      --line:    #B8B8B8;
+      --accent:  #185756;
+      --tag-purple:#EDD4FF;
+      --tag-blue:  #C0EEFF;
+      --tag-green: #CDFF8B;
+      --fh:'Unbounded',sans-serif;
+      --fb:'Inter',sans-serif;
+      --edge: clamp(20px, 5.5vw, 80px);
+      --gut:  clamp(20px, 8.3vw, 120px);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    a{color:inherit;text-decoration:none;}
+    p{overflow-wrap:break-word;}
+
+    /* layout helpers */
+    .sec{ position:relative; padding: 0 var(--gut); }
+    .sec::before{ content:''; position:absolute; top:0; left:var(--edge); right:var(--edge); height:1px; background:var(--line); }
+    .inner{ max-width:1200px; margin:0 auto; }
+    .eyebrow{
+      font-family:var(--fb); font-weight:500; font-size:11px;
+      letter-spacing:0.14em; color:var(--d7); text-transform:uppercase;
+    }
+    .sec-eyebrow{ padding-top:60px; margin-left:calc(var(--edge) - var(--gut)); }
+
+    /* headings / text */
+    .h{ font-family:var(--fh); font-weight:700; font-size:28px; line-height:1.15; letter-spacing:-0.02em; color:var(--text); }
+    .h .a{ color:var(--accent); }
+    .body{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
+
+    /* NAV */
+    nav{ display:flex; align-items:center; justify-content:space-between; height:72px; padding:0 var(--edge); border-bottom:1px solid var(--line); background:var(--bg); }
+    .nav-back{ display:inline-flex; align-items:center; gap:8px; font-family:var(--fh); font-weight:600; font-size:14px; color:var(--d7); cursor:pointer; transition:color .2s ease; }
+    .nav-back:hover{ color:var(--text); }
+    .nav-back svg{ width:22px; height:22px; transition:transform .2s ease; }
+    .nav-back:hover svg{ transform:translateX(-4px); }
+    .nav-logo{ font-family:var(--fh); font-weight:700; font-size:15px; }
+
+    /* HERO */
+    .hero{ padding:60px var(--gut) 120px; }
+    .hero-in{ max-width:1200px; margin:0 auto; }
+    .tags{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px; }
+    .tag{ font-family:var(--fb); font-weight:500; font-size:11px; color:var(--text); border-radius:100px; padding:6px 10px; }
+    .tag.p{ background:var(--tag-purple);} .tag.b{ background:var(--tag-blue);} .tag.g{ background:var(--tag-green);}
+    .hero-title{ font-family:var(--fh); font-weight:700; font-size:clamp(40px,6vw,64px); line-height:1.1; letter-spacing:-0.02em; margin-bottom:24px; }
+    .hero-sub{ font-family:var(--fb); font-weight:300; font-size:18px; color:var(--d7); max-width:607px; line-height:1.5; }
+    .hero-meta{ margin-top:88px; padding-top:24px; border-top:1px solid var(--line); display:flex; gap:24px; flex-wrap:wrap; }
+    .meta-item{ flex:1 1 0; min-width:150px; display:flex; flex-direction:column; gap:6px; }
+    .meta-item.fix{ flex:0 0 auto; }
+    .meta-label{ font-family:var(--fb); font-weight:400; font-size:11px; color:var(--d5); }
+    .meta-val{ font-family:var(--fb); font-weight:400; font-size:16px; color:var(--text); }
+
+    /* RESULT */
+    /* RESULT — pixel-matched to Figma (frame 1440×831) */
+    .result-sec{ position:relative; background:var(--bg); }
+    .result-wrap{ position:relative; max-width:1440px; margin:0 auto; height:831px; }
+    .r-divider{ position:absolute; left:80px; top:0; width:1280px; height:1px; background:var(--line); border:none; }
+    .r-eyebrow{ position:absolute; left:80px; top:60px; }
+    .result-left{ position:absolute; left:120px; top:180px; width:646px; }
+    .result-phones{ position:absolute; left:818px; top:61px; width:557px; height:auto; display:block; }
+    .impact{ font-family:var(--fh); font-weight:700; font-size:28px; line-height:1.25; letter-spacing:-0.02em; color:var(--text); margin-bottom:120px; }
+    .impact .a{ color:var(--accent); }
+    .stats{ display:flex; background:var(--card); border-radius:24px; padding:40px; align-self:flex-start; }
+    .stat{ display:flex; flex-direction:column; gap:8px; padding:0 24px; position:relative; }
+    .stat + .stat{ border-left:1px solid var(--line); }
+    .stat-num{ font-family:var(--fh); font-weight:800; font-size:40px; line-height:1; letter-spacing:-0.03em; color:var(--d7); }
+    .stat-num span{ color:var(--accent); }
+    .stat-desc{ font-family:var(--fb); font-weight:400; font-size:11px; color:var(--text); line-height:1.35; }
+
+    /* mockups */
+    .mock-img{ width:100%; height:auto; display:block; }
+
+    /* two-col generic */
+    .twocol{ display:grid; grid-template-columns:minmax(0,566px) minmax(0,490px); justify-content:space-between; gap:80px; align-items:end; padding:40px 0 160px; }
+    .twocol:has(.mock-img){ align-items:center; }
+    .twocol.sol{ display:flex; align-items:center; gap:clamp(40px,7vw,100px); padding:80px 0; }
+    .twocol.sol .left{ flex:0 1 571px; }
+    .twocol.sol .mock-img{ flex:0 1 auto; width:495px; max-width:44%; }
+    .twocol.sol.img-right{ justify-content:flex-start; }
+    .twocol.sol.img-left{ justify-content:flex-end; }
+    .twocol.sol.img-left .mock-img{ width:518px; max-width:46%; }
+    .twocol .left{ display:flex; flex-direction:column; gap:24px; }
+    .twocol .left .body{ line-height:1.2; }
+
+    /* pain list */
+    .pains{ display:flex; flex-direction:column; gap:32px; }
+    .pain{ display:flex; gap:12px; align-items:flex-start; }
+    .pain-n{ font-family:var(--fb); font-weight:700; font-size:24px; color:var(--accent); line-height:1; }
+    .pain-b{ display:flex; flex-direction:column; gap:8px; }
+    .pain-t{ font-family:var(--fb); font-weight:700; font-size:18px; color:var(--text); }
+    .pain-d{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
+
+    /* RESEARCH */
+    .research-in{ max-width:960px; margin:0 auto; padding:40px 0 160px; }
+    .research-head{ display:flex; flex-direction:column; gap:12px; margin-bottom:40px; max-width:710px; }
+    .research-desc{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
+    .research-card{ background:var(--card); border-radius:24px; padding:60px; }
+    .research-intro{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; max-width:550px; margin-bottom:32px; }
+    .comp-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .comp{ background:var(--white); border-radius:24px; padding:24px; display:flex; flex-direction:column; gap:28px; }
+    .comp-head{ display:flex; gap:16px; align-items:flex-start; }
+    .comp-logo{ width:44px; height:44px; border-radius:14px; flex-shrink:0; display:block; object-fit:contain; }
+    .comp-name{ font-family:var(--fh); font-weight:700; font-size:22px; letter-spacing:-0.02em; color:var(--text); }
+    .comp-co{ font-family:var(--fb); font-weight:300; font-size:13px; color:var(--text); margin-top:2px; }
+    .comp-blocks{ display:flex; flex-direction:column; gap:24px; }
+    .comp-block .cb-lbl{ font-family:var(--fb); font-weight:400; font-size:14px; color:var(--text); }
+    .comp-block .cb-line{ height:1px; background:var(--line); margin:8px 0; width:200px; max-width:100%; }
+    .comp-block .cb-txt{ font-family:var(--fb); font-weight:300; font-size:14px; color:var(--d7); line-height:1.65; }
+
+    /* MY ROLE */
+    .role-in{ padding:40px 0 160px; }
+    .role-title{ margin:0 0 40px; }
+    .role-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+    .role-item{ display:flex; flex-direction:column; gap:12px; }
+    .role-bar{ height:3px; background:var(--accent); }
+    .role-h{ font-family:var(--fb); font-weight:700; font-size:14px; color:var(--text); }
+    .role-p{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
+
+    /* WHAT LEARNED */
+    .learn-in{ padding:40px 0 160px; }
+    .learn-title{ margin-bottom:40px; max-width:594px; }
+    .learn-card{ background:var(--card); border-radius:24px; padding:60px; }
+    .learn-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .learn-item{ background:var(--white); border-radius:24px; padding:24px; display:flex; flex-direction:column; gap:8px; }
+    .learn-n{ font-family:var(--fb); font-weight:700; font-size:24px; color:var(--accent); line-height:1; margin-bottom:4px; }
+    .learn-h{ font-family:var(--fb); font-weight:700; font-size:18px; color:var(--text); }
+    .learn-p{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
+
+    /* NEXT / FOOTER */
+    .next-in{ padding:40px 0 40px; display:flex; flex-direction:column; gap:24px; align-items:flex-start; }
+    .next-title{ font-family:var(--fh); font-weight:700; font-size:clamp(36px,5vw,52px); letter-spacing:-0.02em; color:var(--text); }
+    .next-btn{ display:inline-flex; align-items:center; gap:8px; background:var(--text); color:#fff; padding:12px 16px; border-radius:8px; border:1px solid transparent; font-family:var(--fb); font-weight:500; font-size:14px; cursor:pointer; transition:background .25s ease, color .25s ease, border-color .25s ease, gap .25s ease; }
+    .next-btn:hover{ background:#fff; border-color:var(--d7); color:var(--text); gap:12px; }
+    .next-btn:active{ background:var(--text); color:#fff; border-color:transparent; }
+    .next-btn svg{ width:20px; height:20px; transition:transform .25s ease; }
+    .next-btn:hover svg{ transform:translateX(4px); }
+    footer{ position:relative; display:flex; justify-content:space-between; padding:28px var(--edge) 26px; font-family:var(--fb); font-weight:300; font-size:12px; line-height:1.5; color:var(--d7); flex-wrap:wrap; gap:12px; }
+    footer::before{ content:''; position:absolute; top:0; left:0; right:0; height:1px; background:var(--line); }
+
+    /* RESPONSIVE */
+    @media (max-width:900px){
+      .inner{ padding:0; }
+      .result-wrap{ height:auto; padding:40px var(--edge) 0; }
+      .r-divider{ position:static; width:auto; margin-bottom:40px; }
+      .r-eyebrow{ position:static; margin-bottom:24px; }
+      .result-left{ position:static; width:100%; margin-bottom:40px; }
+      .result-phones{ position:static; width:100%; max-width:420px; }
+      .twocol, .comp-grid, .role-grid, .learn-grid{ grid-template-columns:1fr; gap:40px; }
+      .twocol.sol{ flex-direction:column; align-items:stretch; gap:40px; }
+      .twocol.sol .left{ flex:1 1 auto; }
+      .twocol.sol .mock-img{ width:100%; max-width:100%; }
+      .impact{ margin-bottom:40px; }
+      .twocol{ padding:60px 0; align-items:start; }
+      .stats{ flex-wrap:wrap; gap:20px; }
+      .stat + .stat{ border-left:none; }
+    }
+    @media (max-width:520px){
+      .meta-item{ min-width:100%; }
+      .research-card,.learn-card{ padding:28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-back" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span data-en="Back" data-ua="Назад">Назад</span>
+  </a>
+  <span class="nav-logo">Kateryna Kovalenko</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-in">
+    <div class="tags">
+      <span class="tag p">B2C</span>
+      <span class="tag b" data-en="Mobile" data-ua="Мобільний">Мобільний</span>
+      <span class="tag g">GreenTech</span>
+    </div>
+    <h1 class="hero-title">Eco Tracker</h1>
+    <p class="hero-sub" data-en="EcoTracker helps users understand how their daily habits affect the environment, track their own progress, and get personalized recommendations for a more sustainable lifestyle." data-ua="EcoTracker допомагає користувачам розуміти вплив своїх щоденних звичок на довкілля, відстежувати власний прогрес та отримувати персональні рекомендації для більш сталого способу життя.">EcoTracker допомагає користувачам розуміти вплив своїх щоденних звичок на довкілля, відстежувати власний прогрес та отримувати персональні рекомендації для більш сталого способу життя.</p>
+    <div class="hero-meta">
+      <div class="meta-item fix"><span class="meta-label" data-en="YEAR" data-ua="РІК">РІК</span><span class="meta-val">2024</span></div>
+      <div class="meta-item"><span class="meta-label" data-en="ROLE" data-ua="РОЛЬ">РОЛЬ</span><span class="meta-val">Product Designer (UX/UI)</span></div>
+      <div class="meta-item"><span class="meta-label" data-en="PROJECT TYPE" data-ua="ТИП ПРОЄКТУ">ТИП ПРОЄКТУ</span><span class="meta-val">Case Study</span></div>
+      <div class="meta-item"><span class="meta-label" data-en="RESEARCH" data-ua="ДОСЛІДЖЕННЯ">ДОСЛІДЖЕННЯ</span><span class="meta-val" data-en="In-depth interviews · JTBD · Competitive analysis" data-ua="Глибинні інтерв'ю · JTBD · Конкурентний аналіз">Глибинні інтерв'ю · JTBD · Конкурентний аналіз</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section class="result-sec">
+  <div class="result-wrap">
+    <div class="r-divider"></div>
+    <div class="eyebrow r-eyebrow" data-en="Outcome" data-ua="Результат">Результат</div>
+    <div class="result-left">
+      <h2 class="impact" data-en="Research showed that <span class='a'>eco-friendliness alone isn't enough motivation.</span> So the app pairs eco-habits with <span class='a'>personal benefit and savings.</span>" data-ua="Дослідження показало, що <span class='a'>екологічність не є достатньою мотивацією.</span> Тому застосунок поєднує екозвички з <span class='a'>особистою вигодою та економією.</span>">Дослідження показало, що <span class="a">екологічність не є достатньою мотивацією.</span> Тому застосунок поєднує екозвички з <span class="a">особистою вигодою та економією.</span></h2>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">15<span>+</span></div><div class="stat-desc" data-en="User scenarios" data-ua="Користувацьких сценаріїв">Користувацьких сценаріїв</div></div>
+        <div class="stat"><div class="stat-num">80<span>+</span></div><div class="stat-desc" data-en="Screens designed across all scenarios" data-ua="Екранів спроєктовано в усіх сценаріях">Екранів спроєктовано в усіх сценаріях</div></div>
+        <div class="stat"><div class="stat-num">60<span>+</span></div><div class="stat-desc" data-en="Components in the design system" data-ua="Компонентів у дизайн-системі">Компонентів у дизайн-системі</div></div>
+      </div>
+    </div>
+    <img class="result-phones" src="group-1.1.png" alt="Eco Tracker — головні екрани застосунку">
+  </div>
+</section>
+
+<!-- CHALLENGE -->
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow sec-eyebrow" data-en="Challenge" data-ua="Виклик">Виклик</div>
+    <div class="twocol">
+      <div class="left">
+        <h2 class="h" data-en="In Ukraine, ecology competes with war, inflation, and everyday needs." data-ua="В Україні екологія конкурує з війною, інфляцією та повсякденними потребами.">В Україні екологія конкурує з війною, інфляцією та повсякденними потребами.</h2>
+        <p class="body" data-en="EcoTracker was meant to help people reduce their ecological footprint, but research showed that for most Ukrainians this isn't enough motivation. Behavior is driven by everyday needs, the economic situation, and local context." data-ua="EcoTracker мав допомагати людям зменшувати свій екологічний слід, але дослідження показало, що для більшості українців це не є достатньою мотивацією. Поведінку визначають повсякденні потреби, економічна ситуація та локальний контекст.">EcoTracker мав допомагати людям зменшувати свій екологічний слід, але дослідження показало, що для більшості українців це не є достатньою мотивацією. Поведінку визначають повсякденні потреби, економічна ситуація та локальний контекст.</p>
+        <p class="body" data-en="My insight: people are ready to change eco-habits when those changes also bring personal benefit. So I rethought the product's value proposition: instead of &quot;save the planet&quot; — eco-actions that also help save money." data-ua="Мій інсайт: люди готові змінювати екологічні звички тоді, коли вони одночасно приносять особисту користь. Тому я переосмислила ціннісну пропозицію продукту: замість «рятуй планету» — екологічні дії, що допомагають ще й економити гроші.">Мій інсайт: люди готові змінювати екологічні звички тоді, коли вони одночасно приносять особисту користь. Тому я переосмислила ціннісну пропозицію продукту: замість «рятуй планету» — екологічні дії, що допомагають ще й економити гроші.</p>
+      </div>
+      <div class="pains">
+        <div class="pain">
+          <span class="pain-n">01</span>
+          <div class="pain-b">
+            <span class="pain-t" data-en="Ecology had to become a personal value." data-ua="Екологія мала стати особистою цінністю.">Екологія мала стати особистою цінністю.</span>
+            <span class="pain-d" data-en="In the Ukrainian market, where war and economic instability affect daily decisions, the product had to motivate not only through care for the environment but through real benefit for the user." data-ua="На українському ринку, де війна та економічна нестабільність впливають на щоденні рішення, продукт мав мотивувати не лише турботою про довкілля, а й реальною користю для користувача.">На українському ринку, де війна та економічна нестабільність впливають на щоденні рішення, продукт мав мотивувати не лише турботою про довкілля, а й реальною користю для користувача.</span>
+          </div>
+        </div>
+        <div class="pain">
+          <span class="pain-n">02</span>
+          <div class="pain-b">
+            <span class="pain-t" data-en="The carbon footprint had to be simplified." data-ua="Вуглецевий слід потрібно було спростити.">Вуглецевий слід потрібно було спростити.</span>
+            <span class="pain-d" data-en="For most users, CO₂ is an abstract concept that's hard to connect to everyday habits. The product had to turn complex ecological data into simple, clear metrics." data-ua="Для більшості користувачів CO₂ — абстрактне поняття, яке складно пов'язати з повсякденними звичками. Продукт мав перетворити складні екологічні дані на прості й зрозумілі показники.">Для більшості користувачів CO₂ — абстрактне поняття, яке складно пов'язати з повсякденними звичками. Продукт мав перетворити складні екологічні дані на прості й зрозумілі показники.</span>
+          </div>
+        </div>
+        <div class="pain">
+          <span class="pain-n">03</span>
+          <div class="pain-b">
+            <span class="pain-t" data-en="Motivation had to be sustained." data-ua="Мотивацію потрібно було підтримувати.">Мотивацію потрібно було підтримувати.</span>
+            <span class="pain-d" data-en="One-off actions don't change behavior for long. The product had to sustain engagement through progress, rewards, and a sense of belonging to a shared result." data-ua="Разові дії не змінюють поведінку надовго. Продукт мав підтримувати залученість через прогрес, винагороди та відчуття причетності до спільного результату.">Разові дії не змінюють поведінку надовго. Продукт мав підтримувати залученість через прогрес, винагороди та відчуття причетності до спільного результату.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow sec-eyebrow" data-en="Research &amp; analytics" data-ua="Дослідження та аналітика">Дослідження та аналітика</div>
+    <div class="research-in">
+      <div class="research-head">
+        <h2 class="h" data-en="I figured out what already works — and what Ukrainian users are missing." data-ua="Я зрозуміла, що вже працює — і чого бракує українським користувачам.">Я зрозуміла, що вже працює — і чого бракує українським користувачам.</h2>
+        <p class="research-desc" data-en="Before designing, I analyzed the three most popular eco-apps to understand which solutions already work and which needs remain unmet. In parallel, I ran JTBD, CJM, User Flow, and in-depth interviews to validate these findings with Ukrainian users." data-ua="Перед проєктуванням я проаналізувала три найпопулярніші еко-застосунки, щоб зрозуміти, які рішення вже працюють, а які потреби залишаються незакритими. Паралельно провела JTBD, CJM, User Flow та глибинні інтерв'ю, щоб перевірити ці висновки на українських користувачах.">Перед проєктуванням я проаналізувала три найпопулярніші еко-застосунки, щоб зрозуміти, які рішення вже працюють, а які потреби залишаються незакритими. Паралельно провела JTBD, CJM, User Flow та глибинні інтерв'ю, щоб перевірити ці висновки на українських користувачах.</p>
+      </div>
+      <div class="research-card">
+        <p class="research-intro" data-en="All competitors solved individual tasks well: gamification, CO₂ calculation, or community. But none combined a personal carbon footprint, financial benefit, and local Ukrainian context. That gap became the foundation of EcoTracker." data-ua="Усі конкуренти добре вирішували окремі задачі: гейміфікацію, розрахунок CO₂ або спільноту. Але жоден не поєднував персональний вуглецевий слід, фінансову вигоду та локальний український контекст. Саме ця прогалина стала основою EcoTracker.">Усі конкуренти добре вирішували окремі задачі: гейміфікацію, розрахунок CO₂ або спільноту. Але жоден не поєднував персональний вуглецевий слід, фінансову вигоду та локальний український контекст. Саме ця прогалина стала основою EcoTracker.</p>
+        <div class="comp-grid">
+          <div class="comp">
+            <div class="comp-head">
+              <img class="comp-logo" src="joulebug.svg" alt="JouleBug">
+              <div><div class="comp-name">JouleBug</div><div class="comp-co">JouleBug</div></div>
+            </div>
+            <div class="comp-blocks">
+              <div class="comp-block"><div class="cb-lbl" data-en="What works" data-ua="Що працює">Що працює</div><div class="cb-line"></div><div class="cb-txt" data-en="Gamification sustains long-term motivation." data-ua="Гейміфікація підтримує довгострокову мотивацію.">Гейміфікація підтримує довгострокову мотивацію.</div></div>
+              <div class="comp-block"><div class="cb-lbl" data-en="How it influenced" data-ua="Як це вплинуло">Як це вплинуло</div><div class="cb-line"></div><div class="cb-txt" data-en="I made eco-challenges, levels, and a progress system the core of motivation, so users return to the app and gradually build eco-habits." data-ua="Я зробила екочеленджі, рівні та систему прогресу основою мотивації, щоб користувачі поверталися до застосунку й поступово формували екологічні звички.">Я зробила екочеленджі, рівні та систему прогресу основою мотивації, щоб користувачі поверталися до застосунку й поступово формували екологічні звички.</div></div>
+            </div>
+          </div>
+          <div class="comp">
+            <div class="comp-head">
+              <img class="comp-logo" src="klima.svg" alt="Klima">
+              <div><div class="comp-name">Klima</div><div class="comp-co">Climate Labs GmbH</div></div>
+            </div>
+            <div class="comp-blocks">
+              <div class="comp-block"><div class="cb-lbl" data-en="What works" data-ua="Що працює">Що працює</div><div class="cb-line"></div><div class="cb-txt" data-en="Personal calculation makes the user's impact clear." data-ua="Персональний розрахунок робить вплив користувача зрозумілим.">Персональний розрахунок робить вплив користувача зрозумілим.</div></div>
+              <div class="comp-block"><div class="cb-lbl" data-en="How it influenced" data-ua="Як це вплинуло">Як це вплинуло</div><div class="cb-line"></div><div class="cb-txt" data-en="I built a personal CO₂ profile and recommendations based on the user's individual habits." data-ua="Я побудувала персональний CO₂-профіль і рекомендації, що базуються на індивідуальних звичках користувача.">Я побудувала персональний CO₂-профіль і рекомендації, що базуються на індивідуальних звичках користувача.</div></div>
+            </div>
+          </div>
+          <div class="comp">
+            <div class="comp-head">
+              <img class="comp-logo" src="earth-hero.svg" alt="Earth Hero">
+              <div><div class="comp-name">Earth Hero</div><div class="comp-co">Earth Hero</div></div>
+            </div>
+            <div class="comp-blocks">
+              <div class="comp-block"><div class="cb-lbl" data-en="What works" data-ua="Що працює">Що працює</div><div class="cb-line"></div><div class="cb-txt" data-en="Tracking actions across areas gives a holistic picture of impact." data-ua="Відстеження дій у різних сферах дає цілісну картину впливу.">Відстеження дій у різних сферах дає цілісну картину впливу.</div></div>
+              <div class="comp-block"><div class="cb-lbl" data-en="How it influenced" data-ua="Як це вплинуло">Як це вплинуло</div><div class="cb-line"></div><div class="cb-txt" data-en="I combined transport, energy, food, shopping, and waste into a single CO₂ tracking system." data-ua="Я об'єднала транспорт, енергію, харчування, покупки та відходи в єдину систему відстеження CO₂.">Я об'єднала транспорт, енергію, харчування, покупки та відходи в єдину систему відстеження CO₂.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION 1 -->
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow sec-eyebrow" data-en="Solution 01" data-ua="Рішення 01">Рішення 01</div>
+    <div class="twocol sol img-right">
+      <div class="left">
+        <h2 class="h" data-en="An eco-action answers: &quot;What's in it for me?&quot;" data-ua="Екодія відповідає на питання: «Що я з цього отримаю?»">Екодія відповідає на питання: «Що я з цього отримаю?»</h2>
+        <p class="body" data-en="To boost motivation, I designed eco-actions through the lens of personal value. Instead of just an ecological effect, the user sees financial benefit, time savings, health impact, and their contribution to the environment — which makes decisions easier and helps build new habits." data-ua="Щоб підвищити мотивацію, я спроєктувала екодії через призму особистої цінності. Замість лише екологічного ефекту користувач бачить фінансову вигоду, економію часу, вплив на здоров'я та свій внесок у довкілля, що допомагає легше приймати рішення й формувати нові звички.">Щоб підвищити мотивацію, я спроєктувала екодії через призму особистої цінності. Замість лише екологічного ефекту користувач бачить фінансову вигоду, економію часу, вплив на здоров'я та свій внесок у довкілля, що допомагає легше приймати рішення й формувати нові звички.</p>
+        <p class="body" data-en="Each action is structured so a decision can be made in seconds: the user immediately sees the category, difficulty level, expected reward in eco-points, and a detailed description of the benefit. This helps quickly find relevant actions and gradually integrate eco-habits into daily life." data-ua="Кожна дія структурована так, щоб рішення можна було прийняти за кілька секунд: користувач одразу бачить категорію, рівень складності, очікувану винагороду в екопоінтах і детальний опис користі. Це допомагає швидко знаходити релевантні дії та поступово інтегрувати екозвички у повсякденне життя.">Кожна дія структурована так, щоб рішення можна було прийняти за кілька секунд: користувач одразу бачить категорію, рівень складності, очікувану винагороду в екопоінтах і детальний опис користі. Це допомагає швидко знаходити релевантні дії та поступово інтегрувати екозвички у повсякденне життя.</p>
+      </div>
+      <img class="mock-img" src="group-2.2.png" alt="Екран екодій — Eco Tracker">
+
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION 2 (mockup left) -->
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow sec-eyebrow" data-en="Solution 02" data-ua="Рішення 02">Рішення 02</div>
+    <div class="twocol sol img-left">
+      <img class="mock-img" src="group-3.3.png" alt="Розділ Emissions — вуглецевий слід">
+
+      <div class="left">
+        <h2 class="h" data-en="The carbon footprint becomes clear through habits." data-ua="Вуглецевий слід стає зрозумілим у звичках.">Вуглецевий слід стає зрозумілим у звичках.</h2>
+        <p class="body" data-en="To make CO₂ understandable, I designed the Emissions section, where the carbon footprint breaks down into familiar areas of life: home, transport, flights, food, shopping, and waste. Instead of an abstract number, the user sees which habits shape their impact." data-ua="Щоб зробити CO₂ зрозумілим, я спроєктувала розділ Emissions, де вуглецевий слід розкладається на знайомі сфери життя: дім, транспорт, перельоти, харчування, покупки та відходи. Замість абстрактної цифри користувач бачить, які саме звички формують його вплив.">Щоб зробити CO₂ зрозумілим, я спроєктувала розділ Emissions, де вуглецевий слід розкладається на знайомі сфери життя: дім, транспорт, перельоти, харчування, покупки та відходи. Замість абстрактної цифри користувач бачить, які саме звички формують його вплив.</p>
+        <p class="body" data-en="The user can add data for each category and view the overall metric, change dynamics, and personal tips. This helps not just to see their CO₂, but to understand what exactly affects it and where changes will have the biggest effect." data-ua="Користувач може додавати дані по кожній категорії, переглядати загальний показник, динаміку змін і персональні поради. Це допомагає не просто побачити свій CO₂, а зрозуміти, що саме на нього впливає і де зміни дадуть найбільший ефект.">Користувач може додавати дані по кожній категорії, переглядати загальний показник, динаміку змін і персональні поради. Це допомагає не просто побачити свій CO₂, а зрозуміти, що саме на нього впливає і де зміни дадуть найбільший ефект.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION 3 -->
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow sec-eyebrow" data-en="Solution 03" data-ua="Рішення 03">Рішення 03</div>
+    <div class="twocol sol img-right">
+      <div class="left">
+        <h2 class="h" data-en="Motivation works better when it's shared." data-ua="Мотивація працює краще, коли вона спільна.">Мотивація працює краще, коли вона спільна.</h2>
+        <p class="body" data-en="So eco-habits don't stay an individual intention, I designed the community section as a space for shared action. The user can join a group by city or interest, see other members' contributions, and feel that their actions are part of a shared result." data-ua="Щоб екозвички не залишалися індивідуальним наміром, я спроєктувала community-секцію як простір для спільної дії. Користувач може приєднатися до групи за містом або інтересом, бачити внесок інших учасників і відчувати, що його дії — частина спільного результату.">Щоб екозвички не залишалися індивідуальним наміром, я спроєктувала community-секцію як простір для спільної дії. Користувач може приєднатися до групи за містом або інтересом, бачити внесок інших учасників і відчувати, що його дії — частина спільного результату.</p>
+        <p class="body" data-en="Inside a group you can see members' activity, their actions, and shared progress. I also added a team ranking and challenges between groups to sustain motivation through belonging, team dynamics, and friendly competition." data-ua="Усередині групи видно активність учасників, їхні дії та спільний прогрес. Окремо я додала рейтинг команд і челенджі між групами, щоб підтримувати мотивацію через причетність, командну динаміку та дружнє суперництво.">Усередині групи видно активність учасників, їхні дії та спільний прогрес. Окремо я додала рейтинг команд і челенджі між групами, щоб підтримувати мотивацію через причетність, командну динаміку та дружнє суперництво.</p>
+      </div>
+      <img class="mock-img" src="group-4.4.png" alt="Community — спільнота та челенджі">
+
+    </div>
+  </div>
+</section>
+
+<!-- MY ROLE -->
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow sec-eyebrow" data-en="My Role" data-ua="Моя роль">Моя роль</div>
+    <div class="role-in">
+      <h2 class="h role-title" data-en="Product Designer (UX/UI)" data-ua="Дизайнер продукту (UX/UI)">Дизайнер продукту (UX/UI)</h2>
+      <div class="role-grid">
+        <div class="role-item">
+          <div class="role-bar"></div>
+          <div class="role-h" data-en="Research" data-ua="Дослідження">Дослідження</div>
+          <p class="role-p" data-en="Ran competitive analysis, JTBD, persona, and user flow to understand how to make an ecological product relevant for the Ukrainian user." data-ua="Провела конкурентний аналіз, JTBD, persona та user flow, щоб зрозуміти, як зробити екологічний продукт релевантним для українського користувача.">Провела конкурентний аналіз, JTBD, persona та user flow, щоб зрозуміти, як зробити екологічний продукт релевантним для українського користувача.</p>
+        </div>
+        <div class="role-item">
+          <div class="role-bar"></div>
+          <div class="role-h" data-en="Design" data-ua="Дизайн">Дизайн</div>
+          <p class="role-p" data-en="Designed the information architecture, core user scenarios, and the full app UI. Built the design system, component library, and detailed mockups for key features." data-ua="Спроєктувала інформаційну архітектуру, основні користувацькі сценарії та повний UI застосунку. Розробила дизайн-систему, бібліотеку компонентів і детальні макети для ключових функцій.">Спроєктувала інформаційну архітектуру, основні користувацькі сценарії та повний UI застосунку. Розробила дизайн-систему, бібліотеку компонентів і детальні макети для ключових функцій.</p>
+        </div>
+        <div class="role-item">
+          <div class="role-bar"></div>
+          <div class="role-h" data-en="Product thinking" data-ua="Продуктове мислення">Продуктове мислення</div>
+          <p class="role-p" data-en="Shaped the product logic: defined how to combine ecological benefit with the user's personal motivation, which features should become the product's core, and how to turn an abstract CO₂ footprint into an understandable experience." data-ua="Сформувала продуктову логіку застосунку: визначила, як поєднати екологічну користь з особистою мотивацією користувача, які функції мають стати ядром продукту та як перетворити абстрактний CO₂-слід на зрозумілий досвід.">Сформувала продуктову логіку застосунку: визначила, як поєднати екологічну користь з особистою мотивацією користувача, які функції мають стати ядром продукту та як перетворити абстрактний CO₂-слід на зрозумілий досвід.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT I LEARNED -->
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow sec-eyebrow" data-en="What I Learned" data-ua="Що я навчилася">Що я навчилася</div>
+    <div class="learn-in">
+      <h2 class="h learn-title" data-en="When ecology isn't a priority, the right <span class='a'>choice has to be rewarding.</span>" data-ua="Коли екологія не в пріоритеті, правильний <span class='a'>вибір має бути вигідним.</span>">Коли екологія не в пріоритеті, правильний <span class="a">вибір має бути вигідним.</span></h2>
+      <div class="learn-card">
+        <div class="learn-grid">
+          <div class="learn-item">
+            <div class="learn-n">01</div>
+            <div class="learn-h" data-en="Market context shapes the product" data-ua="Контекст ринку формує продукт">Контекст ринку формує продукт</div>
+            <p class="learn-p" data-en="I realized an ecological product can't be built only around the global idea of sustainability. To work in Ukraine, it has to account for the user's everyday priorities." data-ua="Я зрозуміла, що екологічний продукт не можна будувати лише навколо глобальної ідеї сталого розвитку. Щоб він працював в Україні, він має враховувати щоденні пріоритети користувача.">Я зрозуміла, що екологічний продукт не можна будувати лише навколо глобальної ідеї сталого розвитку. Щоб він працював в Україні, він має враховувати щоденні пріоритети користувача.</p>
+          </div>
+          <div class="learn-item">
+            <div class="learn-n">02</div>
+            <div class="learn-h" data-en="Personal benefit motivates better than abstract good" data-ua="Особиста вигода мотивує краще за абстрактну користь">Особиста вигода мотивує краще за абстрактну користь</div>
+            <p class="learn-p" data-en="I saw that eco-actions become clearer and more appealing when the user immediately sees their own benefit — saving money, time, health gains, and steady progress." data-ua="Я побачила, що екодії стають зрозумілішими й привабливішими, коли користувач одразу бачить власну вигоду — економію коштів, часу, користь для здоров'я та поступовий прогрес.">Я побачила, що екодії стають зрозумілішими й привабливішими, коли користувач одразу бачить власну вигоду — економію коштів, часу, користь для здоров'я та поступовий прогрес.</p>
+          </div>
+          <div class="learn-item">
+            <div class="learn-n">03</div>
+            <div class="learn-h" data-en="Community isn't an add-on — it's part of motivation" data-ua="Спільнота — це не додаток, а частина мотивації">Спільнота — це не додаток, а частина мотивації</div>
+            <p class="learn-p" data-en="Eco-habits form more easily when you're not alone. Shared challenges, other users' progress, and a sense of involvement help sustain motivation longer." data-ua="Екологічні звички легше формуються не наодинці. Спільні челенджі, прогрес інших користувачів і відчуття залученості допомагають довше зберігати мотивацію.">Екологічні звички легше формуються не наодинці. Спільні челенджі, прогрес інших користувачів і відчуття залученості допомагають довше зберігати мотивацію.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT / FOOTER -->
+<section class="sec">
+  <div class="inner">
+    <div class="eyebrow sec-eyebrow" data-en="Next Case" data-ua="Наступний кейс">Наступний кейс</div>
+    <div class="next-in">
+      <div class="next-title">99 Problems</div>
+      <a class="next-btn" href="case-99problems.html">
+        <span data-en="View project" data-ua="Переглянути кейс">Переглянути кейс</span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Kateryna Kovalenko</span>
+  <span>Designed by me. Coded with Claude.</span>
+</footer>
+
+<script>
+  const lang = localStorage.getItem('lang') || 'en';
+  document.documentElement.lang = lang === 'ua' ? 'uk' : 'en';
+  document.querySelectorAll('[data-en][data-ua]').forEach(el => {
+    el.innerHTML = el.getAttribute('data-' + lang);
+  });
+</script>
+</body>
+</html>
