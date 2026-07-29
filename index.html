@@ -185,11 +185,19 @@
     /* ─── HERO: елементи з підйомом — невидимі на старті ─── */
     .hero-element10,
     .hero-line1,
-    .hero-line2,
-    .hero-tagline {
+    .hero-line2 {
       opacity: 0;
       transform: translateY(20px);
     }
+    /* Tagline — друкується символ за символом, без підйому */
+    .hero-tagline { opacity: 0; }
+    .hero-tagline.typing::after {
+      content: '|';
+      color: var(--accent);
+      margin-left: 2px;
+      animation: caret-blink 0.8s step-end infinite;
+    }
+    @keyframes caret-blink { 50% { opacity: 0; } }
     /* Handwriting — тільки opacity, БЕЗ transform (щоб не двоїлось) */
     .hero-handwriting { opacity: 0; }
     /* Line 3 — біла, завжди видима через контраст пензля */
@@ -198,7 +206,7 @@
     .hero-handwriting {
       position: absolute;
       left: 136px;
-      top: 185px;
+      top: 165px;
       font-family: 'Caveat', cursive;
       font-size: 20px;
       color: var(--dark-700);
@@ -211,7 +219,7 @@
     .hero-element10 {
       position: absolute;
       left: 81px;
-      top: 136px;
+      top: 116px;
       width: 314px;
       height: 168px;
     }
@@ -220,7 +228,7 @@
     .hero-line1 {
       position: absolute;
       left: 127px;
-      top: 254px;
+      top: 234px;
       width: 920px;
       font-family: 'Unbounded', sans-serif;
       font-weight: 700;
@@ -233,7 +241,7 @@
     .hero-line2 {
       position: absolute;
       left: 127px;
-      top: 324px;
+      top: 304px;
       white-space: nowrap;
       font-family: 'Unbounded', sans-serif;
       font-weight: 700;
@@ -247,7 +255,7 @@
     .hero-brush {
       position: absolute;
       left: 40px;
-      top: 391px;
+      top: 371px;
       pointer-events: none;
       z-index: 1;
     }
@@ -255,7 +263,7 @@
     .hero-line3 {
       position: absolute;
       left: 127px;
-      top: 394px;
+      top: 374px;
       white-space: nowrap;
       font-family: 'Unbounded', sans-serif;
       font-weight: 700;
@@ -269,7 +277,7 @@
     .hero-tagline {
       position: absolute;
       right: 80px;
-      top: 563px;
+      top: 543px;
       width: 320px;
       font-family: 'Inter', sans-serif;
       font-weight: 300;
@@ -1360,7 +1368,7 @@
     var el = document.querySelector(selector);
     if (!el) return;
     setTimeout(function() {
-      el.style.transition = 'opacity 0.5s ease';
+      el.style.transition = 'opacity 0.7s ease';
       el.style.opacity = '1';
     }, delay);
   }
@@ -1368,15 +1376,35 @@
     var el = document.querySelector(selector);
     if (!el) return;
     setTimeout(function() {
-      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
       el.style.opacity = '1';
       el.style.transform = 'translateY(0)';
     }, delay);
   }
-  heroFadeOnly('.hero-handwriting', 100);
-  heroFadeUp('.hero-element10',     300);
-  heroFadeUp('.hero-line1',         500);
-  heroFadeUp('.hero-line2',         650);
+  /* Ефект друкарської машинки для tagline */
+  function heroTypewriter(selector, delay) {
+    var el = document.querySelector(selector);
+    if (!el) return;
+    setTimeout(function() {
+      var full = el.textContent.trim();
+      el.textContent = '';
+      el.style.opacity = '1';
+      el.classList.add('typing');
+      var i = 0;
+      var t = setInterval(function() {
+        i++;
+        el.textContent = full.slice(0, i);
+        if (i >= full.length) {
+          clearInterval(t);
+          setTimeout(function() { el.classList.remove('typing'); }, 1200);
+        }
+      }, 28);
+    }, delay);
+  }
+  heroFadeOnly('.hero-handwriting', 300);
+  heroFadeUp('.hero-element10',     900);
+  heroFadeUp('.hero-line1',        1600);
+  heroFadeUp('.hero-line2',        2100);
   var p1 = document.getElementById('doodle-path-1');
   var p2 = document.getElementById('doodle-path-2');
   if (p1 && p2) {
@@ -1387,15 +1415,15 @@
     p2.style.strokeDasharray  = len2;
     p2.style.strokeDashoffset = len2;
     setTimeout(function() {
-      p1.style.transition = 'stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+      p1.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
       p1.style.strokeDashoffset = '0';
-    }, 850);
+    }, 2600);
     setTimeout(function() {
-      p2.style.transition = 'stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+      p2.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
       p2.style.strokeDashoffset = '0';
-    }, 1200);
+    }, 3000);
   }
-  heroFadeUp('.hero-tagline', 1500);
+  heroTypewriter('.hero-tagline', 3600);
 
   /* ─── SCROLL REVEAL ─── */
   const observer = new IntersectionObserver(entries => {
