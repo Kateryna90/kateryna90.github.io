@@ -186,8 +186,7 @@
     .hero-element10,
     .hero-line1,
     .hero-line2,
-    .hero-subtitle,
-    .hero-aside {
+    .hero-tagline {
       opacity: 0;
       transform: translateY(20px);
     }
@@ -199,7 +198,7 @@
     .hero-handwriting {
       position: absolute;
       left: 136px;
-      top: 105px;
+      top: 185px;
       font-family: 'Caveat', cursive;
       font-size: 20px;
       color: var(--dark-700);
@@ -212,7 +211,7 @@
     .hero-element10 {
       position: absolute;
       left: 81px;
-      top: 56px;
+      top: 136px;
       width: 314px;
       height: 168px;
     }
@@ -221,7 +220,7 @@
     .hero-line1 {
       position: absolute;
       left: 127px;
-      top: 174px;
+      top: 254px;
       width: 920px;
       font-family: 'Unbounded', sans-serif;
       font-weight: 700;
@@ -234,7 +233,7 @@
     .hero-line2 {
       position: absolute;
       left: 127px;
-      top: 244px;
+      top: 324px;
       white-space: nowrap;
       font-family: 'Unbounded', sans-serif;
       font-weight: 700;
@@ -248,7 +247,7 @@
     .hero-brush {
       position: absolute;
       left: 40px;
-      top: 311px;
+      top: 391px;
       pointer-events: none;
       z-index: 1;
     }
@@ -256,7 +255,7 @@
     .hero-line3 {
       position: absolute;
       left: 127px;
-      top: 314px;
+      top: 394px;
       white-space: nowrap;
       font-family: 'Unbounded', sans-serif;
       font-weight: 700;
@@ -267,24 +266,14 @@
       z-index: 2;
     }
 
-    .hero-subtitle {
+    .hero-tagline {
       position: absolute;
-      left: 127px;
-      top: 424px;
+      right: 80px;
+      top: 563px;
+      width: 320px;
       font-family: 'Inter', sans-serif;
       font-weight: 300;
       font-size: 17px;
-      color: var(--dark-700);
-      white-space: nowrap;
-    }
-
-    .hero-aside {
-      position: absolute;
-      right: 80px;
-      top: 487px;
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      font-size: 16px;
       color: var(--dark-700);
       text-align: right;
       line-height: 1.5;
@@ -871,7 +860,7 @@
       .hero { height: auto; padding: 48px 40px 72px; }
       .hero-handwriting,
       .hero-line1, .hero-line2, .hero-line3,
-      .hero-subtitle, .hero-aside {
+      .hero-tagline {
         position: static;
         width: auto;
         white-space: normal;
@@ -891,8 +880,7 @@
         border-radius: 10px;
         margin-top: 6px;
       }
-      .hero-subtitle { margin-top: 28px; }
-      .hero-aside { margin-top: 20px; text-align: left; }
+      .hero-tagline { margin-top: 28px; text-align: left; max-width: 420px; }
 
       /* ABOUT */
       .about { height: auto; padding: 60px 40px 72px; }
@@ -950,8 +938,7 @@
         letter-spacing: -0.6px;
       }
       .hero-line3 { padding: 2px 10px; border-radius: 8px; }
-      .hero-subtitle { font-size: 15px; }
-      .hero-aside { font-size: 14px; }
+      .hero-tagline { font-size: 15px; }
 
       .about { padding: 48px 20px 56px; }
       .about-avatar { width: 220px; height: 220px; }
@@ -1038,16 +1025,11 @@
      data-en="decisions that make sense."
      data-ua="рішення, що мають сенс.">decisions that make sense.</p>
 
-  <p class="hero-subtitle"
-     data-en="UI/UX designer. Analytical mind, artistic eye."
-     data-ua="UI/UX дизайнер. Аналітичний розум, художнє бачення.">
-    UI/UX designer. Analytical mind, artistic eye.
+  <p class="hero-tagline"
+     data-en="Design at the intersection of logic, aesthetics, and product thinking."
+     data-ua="Дизайн на перетині логіки, естетики та продуктового мислення.">
+    Design at the intersection of logic, aesthetics, and product thinking.
   </p>
-
-  <div class="hero-aside">
-    <p data-en="Fine arts background" data-ua="Художня освіта">Fine arts background</p>
-    <p data-en="+ product thinking" data-ua="+ продуктове мислення">+ product thinking</p>
-  </div>
 </section>
 
 <!-- ─── ABOUT ─── -->
@@ -1378,7 +1360,7 @@
     var el = document.querySelector(selector);
     if (!el) return;
     setTimeout(function() {
-      el.style.transition = 'opacity 0.9s ease';
+      el.style.transition = 'opacity 0.5s ease';
       el.style.opacity = '1';
     }, delay);
   }
@@ -1386,15 +1368,15 @@
     var el = document.querySelector(selector);
     if (!el) return;
     setTimeout(function() {
-      el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
       el.style.opacity = '1';
       el.style.transform = 'translateY(0)';
     }, delay);
   }
-  heroFadeOnly('.hero-handwriting', 300);
-  heroFadeUp('.hero-element10',    1300);
-  heroFadeUp('.hero-line1',        2300);
-  heroFadeUp('.hero-line2',        3100);
+  heroFadeOnly('.hero-handwriting', 100);
+  heroFadeUp('.hero-element10',     300);
+  heroFadeUp('.hero-line1',         500);
+  heroFadeUp('.hero-line2',         650);
   var p1 = document.getElementById('doodle-path-1');
   var p2 = document.getElementById('doodle-path-2');
   if (p1 && p2) {
@@ -1405,16 +1387,15 @@
     p2.style.strokeDasharray  = len2;
     p2.style.strokeDashoffset = len2;
     setTimeout(function() {
-      p1.style.transition = 'stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1)';
+      p1.style.transition = 'stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
       p1.style.strokeDashoffset = '0';
-    }, 4000);
+    }, 850);
     setTimeout(function() {
-      p2.style.transition = 'stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1)';
+      p2.style.transition = 'stroke-dashoffset 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
       p2.style.strokeDashoffset = '0';
-    }, 5100);
+    }, 1200);
   }
-  heroFadeUp('.hero-subtitle', 6200);
-  heroFadeUp('.hero-aside',    6400);
+  heroFadeUp('.hero-tagline', 1500);
 
   /* ─── SCROLL REVEAL ─── */
   const observer = new IntersectionObserver(entries => {
