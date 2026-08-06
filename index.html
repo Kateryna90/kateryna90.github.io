@@ -242,14 +242,15 @@
       transition: clip-path 0.5s ease-out;
     }
     .el10-dashes.drawn { clip-path: inset(0); }
-    /* Стрілка: правий кластер. Малюється зверху вниз */
-    .el10-arrow { left: 178px; top: 58px; width: 136px; height: 110px; }
-    .el10-arrow img { left: -178px; top: -58px; }
-    .el10-arrow {
-      clip-path: inset(0 0 100% 0);
-      transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Стрілка: намальована заново як лінія — анімується як малювання пером */
+    .el10-arrow-svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 314px;
+      height: 168px;
+      overflow: visible;
     }
-    .el10-arrow.drawn { clip-path: inset(0); }
 
     .hero-line1 {
       position: absolute;
@@ -1035,7 +1036,11 @@
   <!-- STEP 2: Element10 SVG — смужки і стрілка промальовуються окремо -->
   <div class="hero-element10">
     <div class="el10-part el10-dashes"><img class="el10-img" src="element10-en.svg" alt=""></div>
-    <div class="el10-part el10-arrow"><img class="el10-img" src="element10-en.svg" alt=""></div>
+    <svg class="el10-arrow-svg" viewBox="0 0 314 168" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="arrow-main" d="M196 74 C 208 57, 230 56, 235 76 C 240 95, 219 103, 226 114 C 233 125, 260 113, 294 126" stroke="#B8B8B8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path id="arrow-head-1" d="M294 126 L 282 118" stroke="#B8B8B8" stroke-width="2.2" stroke-linecap="round"/>
+      <path id="arrow-head-2" d="M294 126 L 283 134" stroke="#B8B8B8" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
   </div>
 
   <!-- STEP 3: Text lines appear THIRD -->
@@ -1429,18 +1434,29 @@
       }, 28);
     }, delay);
   }
+  /* Промальовування лінії пером через stroke-dashoffset */
+  function drawStroke(id, delay, duration, easing) {
+    var p = document.getElementById(id);
+    if (!p) return;
+    var len = p.getTotalLength();
+    p.style.strokeDasharray  = len;
+    p.style.strokeDashoffset = len;
+    setTimeout(function() {
+      p.style.transition = 'stroke-dashoffset ' + duration + 'ms ' + (easing || 'ease-in-out');
+      p.style.strokeDashoffset = '0';
+    }, delay);
+  }
   heroFadeOnly('.hero-handwriting', 300);
-  /* Після привітання: смужки промальовуються, потім стрілка зверху вниз */
+  /* Після привітання: смужки промальовуються, потім стрілка малюється пером */
   setTimeout(function() {
     var d = document.querySelector('.el10-dashes');
     if (d) d.classList.add('drawn');
   }, 1100);
-  setTimeout(function() {
-    var a = document.querySelector('.el10-arrow');
-    if (a) a.classList.add('drawn');
-  }, 1600);
-  heroFadeUp('.hero-line1',        2000);
-  heroFadeUp('.hero-line2',        2400);
+  drawStroke('arrow-main',   1700, 1100, 'cubic-bezier(0.45, 0, 0.35, 1)');
+  drawStroke('arrow-head-1', 2800, 180, 'ease-out');
+  drawStroke('arrow-head-2', 2950, 180, 'ease-out');
+  heroFadeUp('.hero-line1',        2400);
+  heroFadeUp('.hero-line2',        2800);
   var p1 = document.getElementById('doodle-path-1');
   var p2 = document.getElementById('doodle-path-2');
   if (p1 && p2) {
@@ -1453,13 +1469,13 @@
     setTimeout(function() {
       p1.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
       p1.style.strokeDashoffset = '0';
-    }, 2800);
+    }, 3200);
     setTimeout(function() {
       p2.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
       p2.style.strokeDashoffset = '0';
-    }, 3200);
+    }, 3600);
   }
-  heroTypewriter('.hero-tagline', 3800);
+  heroTypewriter('.hero-tagline', 4200);
 
   /* ─── SCROLL REVEAL ─── */
   const observer = new IntersectionObserver(entries => {
