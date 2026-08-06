@@ -183,7 +183,6 @@
     }
 
     /* ─── HERO: елементи з підйомом — невидимі на старті ─── */
-    .hero-element10,
     .hero-line1,
     .hero-line2 {
       opacity: 0;
@@ -223,7 +222,34 @@
       width: 314px;
       height: 168px;
     }
-    .hero-element10 img { width: 100%; height: 100%; object-fit: contain; }
+    /* Дві «віконні» копії зображення: смужки і стрілка анімуються окремо */
+    .el10-part {
+      position: absolute;
+      overflow: hidden;
+    }
+    .el10-part img {
+      position: absolute;
+      width: 314px;
+      height: 168px;
+      max-width: none;
+      object-fit: contain;
+    }
+    /* Смужки: лівий кластер. Проявляються від тексту вліво */
+    .el10-dashes { left: 0; top: 0; width: 72px; height: 92px; }
+    .el10-dashes img { left: 0; top: 0; }
+    .el10-dashes {
+      clip-path: inset(0 0 0 100%);
+      transition: clip-path 0.5s ease-out;
+    }
+    .el10-dashes.drawn { clip-path: inset(0); }
+    /* Стрілка: правий кластер. Малюється зверху вниз */
+    .el10-arrow { left: 178px; top: 58px; width: 136px; height: 110px; }
+    .el10-arrow img { left: -178px; top: -58px; }
+    .el10-arrow {
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .el10-arrow.drawn { clip-path: inset(0); }
 
     .hero-line1 {
       position: absolute;
@@ -1006,9 +1032,10 @@
      data-en="Hi, I'm Kateryna and"
      data-ua="Привіт, я Катерина і">Hi, I'm Kateryna and</p>
 
-  <!-- STEP 2: Element10 SVG (squiggle + curly arrow) appears SECOND -->
+  <!-- STEP 2: Element10 SVG — смужки і стрілка промальовуються окремо -->
   <div class="hero-element10">
-    <img id="hero-el10" src="element10-en.svg" alt="">
+    <div class="el10-part el10-dashes"><img class="el10-img" src="element10-en.svg" alt=""></div>
+    <div class="el10-part el10-arrow"><img class="el10-img" src="element10-en.svg" alt=""></div>
   </div>
 
   <!-- STEP 3: Text lines appear THIRD -->
@@ -1350,8 +1377,9 @@
         el.textContent = lang === 'ua' ? el.dataset.ua : el.dataset.en;
       }
     });
-    const el10 = document.getElementById('hero-el10');
-    if (el10) el10.src = lang === 'ua' ? 'element10-ua.svg' : 'element10-en.svg';
+    document.querySelectorAll('.el10-img').forEach(function(img) {
+      img.src = lang === 'ua' ? 'element10-ua.svg' : 'element10-en.svg';
+    });
     const phil = document.getElementById('philosophy-img');
     if (phil) phil.src = lang === 'ua' ? 'my-philosophy-ua.svg' : 'my-philosophy-en.svg';
     const res = document.getElementById('resonates-img');
@@ -1402,9 +1430,17 @@
     }, delay);
   }
   heroFadeOnly('.hero-handwriting', 300);
-  heroFadeUp('.hero-element10',     900);
-  heroFadeUp('.hero-line1',        1600);
-  heroFadeUp('.hero-line2',        2100);
+  /* Після привітання: смужки промальовуються, потім стрілка зверху вниз */
+  setTimeout(function() {
+    var d = document.querySelector('.el10-dashes');
+    if (d) d.classList.add('drawn');
+  }, 1100);
+  setTimeout(function() {
+    var a = document.querySelector('.el10-arrow');
+    if (a) a.classList.add('drawn');
+  }, 1600);
+  heroFadeUp('.hero-line1',        2000);
+  heroFadeUp('.hero-line2',        2400);
   var p1 = document.getElementById('doodle-path-1');
   var p2 = document.getElementById('doodle-path-2');
   if (p1 && p2) {
@@ -1417,13 +1453,13 @@
     setTimeout(function() {
       p1.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
       p1.style.strokeDashoffset = '0';
-    }, 2600);
+    }, 2800);
     setTimeout(function() {
       p2.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
       p2.style.strokeDashoffset = '0';
-    }, 3000);
+    }, 3200);
   }
-  heroTypewriter('.hero-tagline', 3600);
+  heroTypewriter('.hero-tagline', 3800);
 
   /* ─── SCROLL REVEAL ─── */
   const observer = new IntersectionObserver(entries => {
