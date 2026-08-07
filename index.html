@@ -11,7 +11,7 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Inter:wght@300;400;500;800&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Inter:wght@300;400;500;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -314,34 +314,20 @@
       line-height: 1.5;
     }
 
-    /* ─── ABOUT ─── */
+    /* ABOUT */
     .about {
       position: relative;
-      height: 691px;
-      overflow: hidden;
+      padding: 120px 80px 130px;
       border-top: 1px solid var(--gray);
     }
 
-    .about-label {
-      position: absolute;
-      left: 120px;
-      top: 60px;
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      font-size: 11px;
-      color: var(--dark-700);
-      letter-spacing: 1.54px;
-      text-transform: uppercase;
-    }
-
     .about-content {
-      position: absolute;
-      left: 50%;
-      top: 120px;
-      transform: translateX(-50%);
+      max-width: 1040px;
+      margin: 0 auto;
       display: flex;
       align-items: flex-end;
-      gap: 60px;
+      justify-content: center;
+      gap: 80px;
     }
 
     .about-avatar {
@@ -367,7 +353,8 @@
     .about-avatar:hover .avatar-hover   { opacity: 1; }
 
     .about-description {
-      width: 520px;
+      flex: 1 0 0;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       gap: 40px;
@@ -381,9 +368,10 @@
 
     .about-title {
       font-family: 'Unbounded', sans-serif;
-      font-weight: 600;
-      font-size: 18px;
-      line-height: 1.5;
+      font-weight: 800;
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: -0.64px;
       color: var(--dark);
     }
 
@@ -402,32 +390,53 @@
     }
 
     .about-link {
-      display: flex;
+      display: inline-flex;
       flex-direction: column;
       gap: 2px;
       text-decoration: none;
-      transition: gap 0.25s ease;
+      position: relative;
+      transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1);
     }
 
     .about-link span {
       font-family: 'Inter', sans-serif;
       font-weight: 400;
       font-size: 14px;
+      line-height: 1;
       color: var(--dark-500);
+      white-space: nowrap;
       transition: color 0.25s ease;
     }
 
-    .about-link::after {
-      content: '';
+    .about-link .link-line {
       display: block;
       height: 1px;
+      width: 100%;
       background: var(--dark-500);
-      transition: background 0.25s ease, transform 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s ease;
+    }
+    .about-link .link-line::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: scaleX(0);
       transform-origin: left;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .about-link:hover span { color: var(--dark); }
-    .about-link:hover::after { background: var(--accent); }
+    .about-link:hover,
+    .about-link:focus-visible {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 6px 10px rgba(181, 79, 11, 0.18));
+    }
+    .about-link:hover span,
+    .about-link:focus-visible span { color: var(--accent); }
+    .about-link:hover .link-line::after,
+    .about-link:focus-visible .link-line::after { transform: scaleX(1); }
+    .about-link:active { transform: translateY(0); }
 
     /* ─── HOW I WORK ─── */
     .how {
@@ -918,8 +927,7 @@
       .hero-tagline { margin-top: 28px; text-align: left; max-width: 420px; }
 
       /* ABOUT */
-      .about { height: auto; padding: 60px 40px 72px; }
-      .about-label { position: static; margin-bottom: 40px; }
+      .about { height: auto; padding: 72px 40px; }
       .about-content {
         position: static;
         transform: none;
@@ -927,7 +935,8 @@
         align-items: flex-start;
         gap: 40px;
       }
-      .about-avatar { width: 280px; height: 280px; }
+      .about-avatar { width: 320px; height: 320px; }
+      .about-title { font-size: 28px; letter-spacing: -0.56px; }
       .about-description { width: 100%; max-width: 640px; }
 
       /* HOW: 2×2 замість 4 в ряд */
@@ -977,7 +986,7 @@
 
       .about { padding: 48px 20px 56px; }
       .about-avatar { width: 220px; height: 220px; }
-      .about-title { font-size: 16px; }
+      .about-title { font-size: 24px; letter-spacing: -0.48px; }
       .about-body { font-size: 15px; }
       .about-links { gap: 32px; flex-wrap: wrap; }
 
@@ -1072,10 +1081,8 @@
   </p>
 </section>
 
-<!-- ─── ABOUT ─── -->
+<!-- ABOUT -->
 <section class="about reveal" id="about">
-  <p class="about-label" data-en="ABOUT" data-ua="ПРО МЕНЕ">ABOUT</p>
-
   <div class="about-content">
     <div class="about-avatar">
       <img class="avatar-default" src="property-1-default.svg" alt="Kateryna Kovalenko">
@@ -1107,9 +1114,9 @@
       </div>
 
       <div class="about-links">
-        <a href="kateryna-kovalenko-designer-ux-ui.pdf" download class="about-link"><span data-en="Download CV" data-ua="Завантажити CV">Download CV</span></a>
-        <a href="https://www.linkedin.com/in/kateryna-kovalenko-design/" target="_blank" class="about-link"><span>LinkedIn</span></a>
-        <a href="https://www.behance.net/abc87e68" target="_blank" class="about-link"><span>Behance</span></a>
+        <a href="kateryna-kovalenko-designer-ux-ui.pdf" download class="about-link"><span data-en="Download CV" data-ua="Завантажити CV">Download CV</span><i class="link-line"></i></a>
+        <a href="https://www.linkedin.com/in/kateryna-kovalenko-design/" target="_blank" rel="noopener" class="about-link"><span>LinkedIn</span><i class="link-line"></i></a>
+        <a href="https://www.behance.net/abc87e68" target="_blank" rel="noopener" class="about-link"><span>Behance</span><i class="link-line"></i></a>
       </div>
     </div>
   </div>
