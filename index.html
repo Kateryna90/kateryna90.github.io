@@ -464,26 +464,52 @@
     .how-card {
       flex: 1;
       height: 344px;
+      background: var(--bg);
+      border: 2px solid var(--accent);
       border-radius: 24px;
-      border-width: 2px;
-      border-style: solid;
       padding: 32px 32px 40px;
       display: flex;
       flex-direction: column;
       gap: 28px;
-      overflow: hidden;
       cursor: default;
-      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      position: relative;
+      transition: transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1),
+                  box-shadow 0.4s ease;
     }
     .how-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.07);
+      transform: translateY(-8px) rotate(-1.6deg);
+      box-shadow: 0 18px 40px rgba(181, 79, 11, 0.14);
+      z-index: 2;
+    }
+    .how-cards:hover .how-card:not(:hover) {
+      transform: rotate(0.5deg);
     }
 
-    .how-card.c1 { background: var(--purple-50); border-color: var(--purple-100); }
-    .how-card.c2 { background: var(--green-50);  border-color: var(--green-100); }
-    .how-card.c3 { background: var(--blue-50);   border-color: var(--blue-100); }
-    .how-card.c4 { background: var(--orange-50); border-color: var(--orange-100); }
+    .how-sparks {
+      position: absolute;
+      inset: -26px;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .how-sparks .spark {
+      position: absolute;
+      color: var(--accent);
+      opacity: 0;
+      transform: scale(0.3) rotate(-25deg);
+      transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.34, 1.6, 0.64, 1);
+    }
+    .how-sparks .s1 { top: 2px;  right: 18px; }
+    .how-sparks .s2 { top: 24px; right: 2px;  }
+    .how-sparks .s3 { bottom: 8px; left: 6px; }
+    .how-sparks .s4 { bottom: 34px; left: -2px; }
+    .how-card:hover .spark {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+    .how-card:hover .s1 { transition-delay: 0.04s; }
+    .how-card:hover .s2 { transition-delay: 0.10s; }
+    .how-card:hover .s3 { transition-delay: 0.07s; }
+    .how-card:hover .s4 { transition-delay: 0.14s; }
 
     .how-card-header {
       display: flex;
@@ -944,6 +970,7 @@
       .how-title { font-size: 32px; }
       .how-cards { flex-wrap: wrap; }
       .how-card { flex: 1 1 calc(50% - 12px); min-width: 260px; height: auto; min-height: 300px; }
+      .how-cards:hover .how-card:not(:hover) { transform: none; }
 
       /* WORK */
       .work { padding: 48px 40px 96px; gap: 56px; }
@@ -993,6 +1020,8 @@
       .how { padding: 48px 20px 64px; gap: 36px; }
       .how-title { font-size: 26px; }
       .how-card { flex: 1 1 100%; min-height: 0; }
+      .how-card:hover { transform: translateY(-4px); }
+      .how-sparks { display: none; }
 
       .work { padding: 40px 20px 64px; gap: 40px; }
       .case-card { padding: 20px 20px 32px; }
@@ -1131,7 +1160,13 @@
   </h2>
 
   <div class="how-cards">
-    <div class="how-card c1">
+    <div class="how-card">
+      <div class="how-sparks" aria-hidden="true">
+        <svg class="spark s1" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s2" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s3" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s4" width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
+      </div>
       <div class="how-card-header">
         <span class="how-card-num">01</span>
         <img class="how-card-icon" src="notebook.svg" alt="">
@@ -1148,7 +1183,13 @@
       </p>
     </div>
 
-    <div class="how-card c2">
+    <div class="how-card">
+      <div class="how-sparks" aria-hidden="true">
+        <svg class="spark s1" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s2" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s3" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s4" width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
+      </div>
       <div class="how-card-header">
         <span class="how-card-num">02</span>
         <img class="how-card-icon" src="puzzles.svg" alt="">
@@ -1165,7 +1206,13 @@
       </p>
     </div>
 
-    <div class="how-card c3">
+    <div class="how-card">
+      <div class="how-sparks" aria-hidden="true">
+        <svg class="spark s1" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s2" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s3" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s4" width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
+      </div>
       <div class="how-card-header">
         <span class="how-card-num">03</span>
         <img class="how-card-icon" src="idea.svg" alt="">
@@ -1182,7 +1229,13 @@
       </p>
     </div>
 
-    <div class="how-card c4">
+    <div class="how-card">
+      <div class="how-sparks" aria-hidden="true">
+        <svg class="spark s1" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s2" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s3" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s4" width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
+      </div>
       <div class="how-card-header">
         <span class="how-card-num">04</span>
         <img class="how-card-icon" src="dandruff.svg" alt="">
