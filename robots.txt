@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kateryna-kovalenko.vercel.app/sitemap.xml
