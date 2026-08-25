@@ -32,8 +32,10 @@
       --font-b:    'Inter', sans-serif;
       --font-hand: 'Caveat', cursive;
       --max: 1200px;
-      --pad: clamp(24px, 5.5vw, 80px);
-      --gut: clamp(24px, 8.3vw, 120px);
+      /* поле = 120px, а на широких екранах контент центрується в 1200 */
+      --edge: max(120px, calc(50% - 600px));
+      --pad: var(--edge);
+      --gut: var(--edge);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -67,28 +69,29 @@
     /* TAGS */
     .tag {
       font-family: var(--font-b); font-size: 11px; font-weight: 500;
-      color: var(--text); border-radius: 100px; padding: 6px 10px;
+      color: var(--bg); background: var(--accent);
+      border-radius: 100px; padding: 6px 10px; white-space: nowrap;
     }
-    .tag.purple { background: var(--tag-purple); }
-    .tag.blue   { background: var(--tag-blue); }
-    .tag.green  { background: var(--tag-green); }
+
+    /* рівномірні рядки в заголовках — без слів-потеряшок */
+    .cs-title, .cs-h2, .impact-head, .d-h3, .learn-quote, .pain-t, .next-title{ text-wrap: balance; }
 
     /* HERO */
     .hero { padding-top: 72px; padding-left: var(--gut); padding-right: var(--gut); }
     .hero-text {
       max-width: var(--max); margin: 0 auto;
-      padding: 60px 0 160px;
+      padding: 60px 0 180px;
     }
-    .cs-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px; }
+    .cs-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
     .cs-title {
       font-family: var(--font-h);
-      font-size: clamp(40px, 6vw, 72px);
-      font-weight: 800; line-height: 1.05;
-      letter-spacing: -0.03em; margin-bottom: 20px;
+      font-size: clamp(40px, 4.45vw, 64px);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -1.28px; margin-bottom: 24px;
     }
     .cs-subtitle {
       font-size: 18px; font-weight: 300; color: var(--dark-700);
-      max-width: 560px; line-height: 1.6; margin-bottom: 48px;
+      max-width: 560px; line-height: 1.35; margin-bottom: 88px;
     }
     .cs-meta {
       display: flex; flex-wrap: wrap; gap: 24px;
@@ -96,15 +99,15 @@
     }
     .cs-meta-item { min-width: 140px; }
     .cs-meta-item:nth-child(1) { flex: 0 0 180px; }
-    .cs-meta-item:nth-child(2) { flex: 1 1 0; }
-    .cs-meta-item:nth-child(3) { flex: 1 1 0; }
-    .cs-meta-item:nth-child(4) { flex: 0 0 auto; min-width: 200px; }
+    .cs-meta-item:nth-child(2) { flex: 0 0 344px; }
+    .cs-meta-item:nth-child(3) { flex: 0 0 344px; }
+    .cs-meta-item:nth-child(4) { flex: 1 1 260px; }
     .cs-meta-label {
-      font-family: var(--font-h); font-size: 10px; font-weight: 600;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 6px;
+      font-family: var(--font-b); font-size: 11px; font-weight: 400;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--dark-500); margin-bottom: 6px;
     }
-    .cs-meta-val { font-size: 15px; color: var(--text); white-space: nowrap; }
+    .cs-meta-val { font-size: 16px; color: var(--text); white-space: nowrap; }
 
     /* HERO COVER — pixel-exact to Figma node 120:83, reference frame 1440x831 */
     .cover-divider {
@@ -118,12 +121,12 @@
     }
     .hero-cover-wrap {
       position: relative;
-      max-width: 1440px;
+      max-width: var(--max);
       margin: 0 auto;
       height: 831px;
     }
     .result-divider {
-      position: absolute; left: 80px; top: 0; width: 1280px; height: 1px;
+      position: absolute; left: 0; top: 0; width: 100%; height: 1px;
       background: var(--line); border: none; margin: 0;
     }
     .result-lbl {
@@ -134,10 +137,10 @@
     }
     .hero-cover-inner { display: contents; }
     .cover-left {
-      position: absolute; left: 120px; top: 180px; width: 646px;
+      position: absolute; left: 0; top: 180px; width: 646px;
     }
     .phones-row {
-      position: absolute; left: 818px; top: 61px; width: 557px;
+      position: absolute; left: 698px; top: 61px; width: 557px;
     }
     /* Phone shell */
     .ph {
@@ -313,11 +316,20 @@
     .divider { border: none; border-top: 1px solid var(--line); margin: 0 var(--pad); }
 
     /* SURVEY / RESEARCH — Figma: label at 80, content block 960 centered */
-    .survey-sec { padding: 80px var(--pad); }
-    .survey-inner { max-width: 960px; margin: 0 auto; }
-    .survey-head { max-width: 525px; }
-    .survey-head .cs-h2 { font-size: 28px; letter-spacing: 0; line-height: 1.2; margin-bottom: 12px; }
-    .survey-head .cs-p { font-size: 16px; line-height: 1.2; max-width: none; }
+    .survey-sec { padding: 160px var(--pad) 180px; }
+    .survey-inner { max-width: var(--max); margin: 0 auto; }
+    .survey-head {
+      display: grid;
+      grid-template-columns: 566px minmax(0, 594px);
+      justify-content: space-between;
+      gap: 40px;
+      align-items: start;
+      max-width: none;
+    }
+    .survey-head .cs-h2 { margin-bottom: 0; }
+    .survey-head .cs-p { margin-top: 0; max-width: none; }
+    .survey-head .cs-h2 { font-size: 28px; letter-spacing: -0.025em; line-height: 1.25; margin-bottom: 40px; }
+    .survey-head .cs-p { font-size: 16px; line-height: 1.55; max-width: none; }
 
     .lbl {
       font-family: var(--font-b); font-size: 11px; font-weight: 500;
@@ -334,15 +346,15 @@
       font-size: 16px; font-weight: 300; color: var(--dark-700);
       max-width: 620px; line-height: 1.75;
     }
-    .cs-p + .cs-p { margin-top: 14px; }
+    .cs-p + .cs-p { margin-top: 24px; }
 
     /* Two-col */
-    .two-col { display: grid; grid-template-columns: minmax(0,566px) minmax(0,490px); justify-content: space-between; gap: 40px; align-items: end; margin-top: 40px; }
+    .two-col { display: grid; grid-template-columns: minmax(0,566px) minmax(0,490px); justify-content: space-between; gap: 144px; align-items: start; margin-top: 0; }
 
     /* Challenge outer wrapper — label at x=80, y=60 */
-    .challenge-outer { padding: 60px var(--gut) 0; }
+    .challenge-outer { padding: 160px var(--gut) 180px; }
     .challenge-outer .lbl { margin-left: calc(var(--pad) - var(--gut)); }
-    .challenge-sec { padding-top: 0; padding-bottom: 120px; }
+    .challenge-sec { padding: 0; }
     .challenge-sec .cs-h2 { font-size: 28px; letter-spacing: 0; line-height: 1.2; margin-bottom: 24px; }
     .challenge-sec .cs-p { font-size: 16px; line-height: 1.2; }
     .challenge-sec .cs-p + .cs-p { margin-top: 24px; }
@@ -350,35 +362,38 @@
     /* Pain list */
     .pain-list { display: flex; flex-direction: column; gap: 32px; }
     .pain-item { display: flex; gap: 12px; align-items: flex-start; }
-    .pain-n { font-family: var(--font-b); font-size: 24px; font-weight: 700; color: var(--accent); flex-shrink: 0; min-width: 32px; }
-    .pain-t { font-size: 16px; font-weight: 300; color: var(--dark-700); line-height: 1.2; }
+    .pain-n { font-family: var(--font-b); font-size: 24px; font-weight: 700; color: var(--accent); flex-shrink: 0; min-width: 29px; line-height: 1.2; }
+    .pain-body { display: flex; flex-direction: column; gap: 8px; }
+    .pain-t { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.35; }
+    .pain-d { font-size: 16px; font-weight: 300; color: var(--dark-700); line-height: 1.55; }
     .pain-t strong { display: block; font-size: 18px; font-weight: 700; color: var(--text); line-height: 1.15; margin-bottom: 8px; }
 
     /* Research card */
     .research-card { background: var(--bg-card); border-radius: 24px; padding: 60px; margin-top: 40px; }
+    .research-intro { max-width: 674px; }
     .research-intro { font-size: 16px; font-weight: 300; color: var(--dark-700); max-width: 506px; line-height: 1.2; margin-bottom: 32px; }
     .research-intro strong { font-weight: 500; color: var(--text); }
     .insight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .insight-cell { background: #fff; border-radius: 24px; padding: 24px; }
-    .ins-num { font-family: var(--font-h); font-size: 32px; font-weight: 800; letter-spacing: 0; color: var(--dark-700); line-height: 1; margin-bottom: 8px; }
+    .insight-cell { background: #fff; border-radius: 20px; padding: 24px; min-height: 130px; }
+    .ins-num { font-family: var(--font-h); font-size: 40px; font-weight: 800; letter-spacing: -0.02em; color: var(--dark-700); line-height: 1; margin-bottom: 8px; }
     .ins-num span { color: var(--accent); }
     .ins-txt { font-size: 14px; font-weight: 300; color: var(--dark-700); line-height: 1.3; }
-    .who-row { display: flex; gap: 60px; flex-wrap: wrap; margin-top: 24px; padding-top: 33px; border-top: 1px solid var(--line); }
+    .who-row { display: flex; gap: 60px; flex-wrap: wrap; margin-top: 43px; padding-top: 33px; border-top: 1px solid var(--line); }
     .who-big { font-family: var(--font-b); font-size: 24px; font-weight: 700; color: var(--dark-700); }
     .who-lbl { font-size: 11px; font-weight: 400; color: var(--dark-700); margin-top: 4px; }
 
     /* DECISIONS — pixel-matched to Figma (frame 1440×734) */
     .decision-sec { position: relative; background: var(--bg); }
-    .decision-wrap { position: relative; max-width: 1440px; margin: 0 auto; height: 734px; }
-    .dec-divider { position: absolute; left: 80px; top: 0; width: 1280px; height: 1px; background: var(--line); }
+    .decision-wrap { position: relative; max-width: var(--max); margin: 0 auto; height: 734px; }
+    .dec-divider { position: absolute; left: 0; top: 0; width: 100%; height: 1px; background: var(--line); }
     .dec-lbl { position: absolute; left: 80px; top: 60px; margin: 0; }
     .dec-text { position: absolute; top: 257px; width: 571px; display: flex; flex-direction: column; gap: 32px; }
-    .dec-text-left { left: 120px; }
-    .dec-text-right { left: 749px; }
+    .dec-text-left { left: 0; }
+    .dec-text-right { left: 629px; }
     .dec-paras { display: flex; flex-direction: column; gap: 24px; }
     .dec-phones { position: absolute; display: block; height: auto; }
-    .dec-phones-right { left: 791px; top: 61px; width: 495px; }
-    .dec-phones-left { left: 145px; top: 80px; width: 518px; }
+    .dec-phones-right { left: 671px; top: 61px; width: 495px; }
+    .dec-phones-left { left: 25px; top: 80px; width: 518px; }
     .d-h3 { font-family: var(--font-h); font-size: 28px; font-weight: 700; line-height: 1.2; letter-spacing: 0; color: var(--text); margin: 0; }
     .d-p { font-size: 16px; font-weight: 300; color: var(--dark-700); line-height: 1.2; margin: 0; }
 
@@ -407,7 +422,7 @@
     .d-phone.dark { background: #0E1A12; border-color: rgba(255,255,255,0.06); }
 
     /* ROLE */
-    .role-section { padding: 60px var(--gut) 160px; }
+    .role-section { padding: 160px var(--gut) 180px; }
     .role-section .lbl { margin-left: calc(var(--pad) - var(--gut)); margin-bottom: 40px; }
     .role-inner { max-width: var(--max); margin: 0 auto; }
     .role-inner .cs-h2 { font-size: 28px; letter-spacing: 0; line-height: 1.2; margin-bottom: 0; }
@@ -417,7 +432,7 @@
     .role-p { font-size: 16px; font-weight: 300; color: var(--dark-700); line-height: 1.2; }
 
     /* LEARNINGS */
-    .cs-learn { background: var(--bg); padding: 60px var(--gut) 160px; }
+    .cs-learn { background: var(--bg); padding: 160px var(--gut) 180px; }
     .cs-learn .lbl-light { margin-left: calc(var(--pad) - var(--gut)); margin-bottom: 40px; }
     .cs-learn-inner { max-width: var(--max); margin: 0 auto; }
     .learn-quote { font-family: var(--font-h); font-size: 28px; font-weight: 700; line-height: 1.2; letter-spacing: 0; color: var(--text); max-width: 594px; margin-bottom: 40px; }
@@ -430,7 +445,7 @@
     .learn-p { font-size: 16px; font-weight: 300; color: var(--dark-700); line-height: 1.2; }
 
     /* NEXT */
-    .cs-next { padding: 60px var(--gut) 40px; }
+    .cs-next { padding: 160px var(--gut) 80px; }
     .cs-next .next-lbl { margin-left: calc(var(--pad) - var(--gut)); margin-bottom: 40px; }
     .next-block { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
     .next-lbl { font-family: var(--font-b); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark-700); margin-bottom: 8px; }
@@ -455,6 +470,7 @@
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .two-col, .role-grid { grid-template-columns: 1fr; gap: 40px; align-items: start; }
+      .survey-head { grid-template-columns: 1fr; gap: 24px; }
       .decision-wrap { height: auto; padding: 40px var(--pad) 0; }
       .dec-divider { position: static; width: auto; margin-bottom: 24px; }
       .dec-lbl { position: static; margin-bottom: 24px; }
@@ -495,9 +511,9 @@
 <div class="hero">
   <div class="hero-text">
     <div class="cs-tags">
-      <span class="tag purple" data-en="B2C" data-ua="B2C">B2C</span>
-      <span class="tag blue" data-en="Mobile" data-ua="Мобільний">Mobile</span>
-      <span class="tag green" data-en="HealthTech" data-ua="HealthTech">HealthTech</span>
+      <span class="tag" data-en="B2C" data-ua="B2C">B2C</span>
+      <span class="tag" data-en="Mobile" data-ua="Мобільний">Mobile</span>
+      <span class="tag" data-en="HealthTech" data-ua="HealthTech">HealthTech</span>
     </div>
     <h1 class="cs-title">99 Problems</h1>
     <p class="cs-subtitle"
@@ -532,7 +548,6 @@
 <div class="hero-cover">
     <div class="hero-cover-wrap">
     <!-- РЕЗУЛЬТАТ label: x=80, y=60 -->
-    <div class="result-lbl" data-en="Outcome" data-ua="Результат">Outcome</div>
 
     <div class="hero-cover-inner">
 
@@ -572,7 +587,6 @@
 
 <!-- CHALLENGE -->
 <div class="challenge-outer">
-  <div class="lbl" data-en="Challenge" data-ua="Виклик">Challenge</div>
   <div class="cs-section challenge-sec">
   <div class="two-col">
     <div>
@@ -589,21 +603,24 @@
     <div class="pain-list">
       <div class="pain-item">
         <span class="pain-n">01</span>
-        <p class="pain-t"
-          data-en="<strong>Medication requests kept repeating.</strong> Even though the website existed, people kept coming in with the same questions about medications and hospitals."
-          data-ua="<strong>Запити про ліки постійно повторювалися.</strong> Проблема в тому, що навіть попри наявність сайту люди продовжували звертатися з одними й тими самими питаннями про ліки та лікарні."><strong>Medication requests kept repeating.</strong> Even though the website existed, people kept coming in with the same questions about medications and hospitals.</p>
+        <div class="pain-body">
+          <p class="pain-t" data-en="Medication requests kept repeating." data-ua="Запити про ліки постійно повторювалися.">Medication requests kept repeating.</p>
+          <p class="pain-d" data-en="Even though the website existed, people kept coming in with the same questions about medications and hospitals." data-ua="Проблема в тому, що навіть попри наявність сайту люди продовжували звертатися з одними й тими самими питаннями про ліки та лікарні.">Even though the website existed, people kept coming in with the same questions about medications and hospitals.</p>
+        </div>
       </div>
       <div class="pain-item">
         <span class="pain-n">02</span>
-        <p class="pain-t"
-          data-en="<strong>The community was spread across different channels.</strong> People communicated via Viber, Facebook, and Instagram, but had no single space for support, sharing experience, and finding information."
-          data-ua="<strong>Спільнота існувала в різних каналах.</strong> Люди спілкувалися у Viber, Facebook та Instagram, але не мали єдиного простору для підтримки, обміну досвідом та пошуку інформації."><strong>The community was spread across different channels.</strong> People communicated via Viber, Facebook, and Instagram, but had no single space for support, sharing experience, and finding information.</p>
+        <div class="pain-body">
+          <p class="pain-t" data-en="The community was spread across different channels." data-ua="Спільнота існувала в різних каналах.">The community was spread across different channels.</p>
+          <p class="pain-d" data-en="People communicated via Viber, Facebook, and Instagram, but had no single space for support, sharing experience, and finding information." data-ua="Люди спілкувалися у Viber, Facebook та Instagram, але не мали єдиного простору для підтримки, обміну досвідом та пошуку інформації.">People communicated via Viber, Facebook, and Instagram, but had no single space for support, sharing experience, and finding information.</p>
+        </div>
       </div>
       <div class="pain-item">
         <span class="pain-n">03</span>
-        <p class="pain-t"
-          data-en="<strong>Disease progression wasn't tracked systematically.</strong> Symptoms, relapses, and medication intake often ended up in paper notebooks — or weren't recorded at all, even though this information is crucial for people with MS."
-          data-ua="<strong>Перебіг хвороби не відстежувався системно.</strong> Симптоми, загострення та прийом ліків часто залишалися в паперових блокнотах або не фіксувалися взагалі, хоча для людей з РС ця інформація є важливою для контролю захворювання."><strong>Disease progression wasn't tracked systematically.</strong> Symptoms, relapses, and medication intake often ended up in paper notebooks — or weren't recorded at all, even though this information is crucial for people with MS.</p>
+        <div class="pain-body">
+          <p class="pain-t" data-en="Disease progression wasn't tracked systematically." data-ua="Перебіг хвороби не відстежувався системно.">Disease progression wasn't tracked systematically.</p>
+          <p class="pain-d" data-en="Symptoms, relapses, and medication intake often ended up in paper notebooks — or weren't recorded at all, even though this information is crucial for people with MS." data-ua="Симптоми, загострення та прийом ліків часто залишалися в паперових блокнотах або не фіксувалися взагалі, хоча для людей з РС ця інформація є важливою для контролю захворювання.">Symptoms, relapses, and medication intake often ended up in paper notebooks — or weren't recorded at all, even though this information is crucial for people with MS.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -614,7 +631,6 @@
 
 <!-- RESEARCH -->
 <div class="survey-sec">
-  <div class="lbl" data-en="Research" data-ua="Дослідження">Research</div>
   <div class="survey-inner">
   <div class="survey-head">
   <h2 class="cs-h2"
@@ -669,7 +685,6 @@
 <div class="decision-sec">
   <div class="decision-wrap">
     <div class="dec-divider"></div>
-    <div class="lbl dec-lbl" data-en="Decision 01" data-ua="Рішення 01">Decision 01</div>
     <div class="dec-text dec-text-left">
       <h3 class="d-h3" data-en="Built one path from information to getting medication." data-ua="Створила єдиний шлях від інформації до отримання ліків.">Built one path from information to getting medication.</h3>
       <div class="dec-paras">
@@ -685,7 +700,6 @@
 <div class="decision-sec">
   <div class="decision-wrap">
     <div class="dec-divider"></div>
-    <div class="lbl dec-lbl" data-en="Decision 02" data-ua="Рішення 02">Decision 02</div>
     <img class="dec-phones dec-phones-left" src="group-3.webp" alt="Community chats — 99 Problems app">
     <div class="dec-text dec-text-right">
       <h3 class="d-h3" data-en="Structured the community around user needs." data-ua="Структурувала спільноту навколо потреб користувачів.">Structured the community around user needs.</h3>
@@ -701,7 +715,6 @@
 <div class="decision-sec">
   <div class="decision-wrap">
     <div class="dec-divider"></div>
-    <div class="lbl dec-lbl" data-en="Decision 03" data-ua="Рішення 03">Decision 03</div>
     <div class="dec-text dec-text-left">
       <h3 class="d-h3" data-en="Helped users see patterns, not just symptoms." data-ua="Допомогла бачити закономірності, а не симптоми.">Helped users see patterns, not just symptoms.</h3>
       <div class="dec-paras">
@@ -717,9 +730,8 @@
 
 <!-- ROLE -->
 <div class="role-section">
-  <div class="lbl" data-en="My Role" data-ua="Моя роль">My Role</div>
   <div class="role-inner">
-  <h2 class="cs-h2" data-en="Product Designer (UX/UI)" data-ua="Дизайнер продукту (UX/UI)">Product Designer (UX/UI)</h2>
+  <h2 class="cs-h2" data-en="My role: Product Designer (UX/UI)" data-ua="Моя роль дизайнера продукту (UX/UI)">My role: Product Designer (UX/UI)</h2>
   <div class="role-grid">
     <div>
       <div class="role-item">
@@ -748,7 +760,6 @@
 <!-- LEARNINGS -->
 <div class="cs-learn">
   <div class="cs-learn-inner">
-    <div class="lbl-light" data-en="What I Learned" data-ua="Що я навчилася">What I Learned</div>
     <p class="learn-quote" data-en="When 811 people give you the same answer, <em>your job</em> is to stop guessing and <em>start designing.</em>" data-ua="Коли 811 людей дають однакову відповідь, <em>твоя задача</em> — перестати здогадуватися і <em>почати проєктувати.</em>">
       When 811 people give you the same answer, <em>your job</em> is to stop guessing and <em>start designing.</em>
     </p>
@@ -779,9 +790,8 @@
 
 <!-- NEXT -->
 <div class="cs-next">
-  <div class="next-lbl" data-en="Next Case" data-ua="Наступний кейс">Next Case</div>
   <div class="next-block">
-    <div class="next-title">EcoTracker</div>
+    <div class="next-title" data-en="Next case — EcoTracker" data-ua="Наступний кейс — EcoTracker">Next case — EcoTracker</div>
     <a class="next-btn" href="case-ecotracker.html">
       <span data-en="View project" data-ua="Переглянути кейс">View project</span>
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>

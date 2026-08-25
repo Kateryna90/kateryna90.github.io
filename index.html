@@ -35,6 +35,35 @@
       --blue-200: #C0EEFF;
       --orange-50: #FFFAEB;
       --orange-100: #FDF1C8;
+
+      /* ── СІТКА: контент 1200, поля 120 (як у Figma 1440) ── */
+      --content: 1200px;
+      --pad: 120px;
+    }
+
+    /* Поле = 120px, а на широких екранах контент центрується в 1200 */
+    .grid-pad {
+      padding-left: max(var(--pad), calc(50% - var(--content) / 2));
+      padding-right: max(var(--pad), calc(50% - var(--content) / 2));
+    }
+    /* Роздільник — рівно по ширині контенту (як у Figma), не на весь екран */
+    .grid-line {
+      position: relative;
+    }
+    .grid-line::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: max(var(--pad), calc(50% - var(--content) / 2));
+      right: max(var(--pad), calc(50% - var(--content) / 2));
+      height: 1px;
+      background: var(--gray);
+    }
+
+    .grid-inner {
+      max-width: var(--content);
+      margin-left: auto;
+      margin-right: auto;
     }
 
     html {
@@ -46,8 +75,6 @@
       background: var(--bg);
       font-family: 'Inter', sans-serif;
       color: var(--dark);
-      max-width: 1440px;
-      margin: 0 auto;
     }
 
     /* ─── NAV ─── */
@@ -55,14 +82,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 24px 80px;
+      padding-top: 24px;
+      padding-bottom: 24px;
       border-bottom: 1px solid var(--gray);
       background: var(--bg);
       position: sticky;
       top: 0;
       z-index: 100;
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
     }
 
     .nav-logo {
@@ -178,8 +204,14 @@
     /* ─── HERO ─── */
     .hero {
       position: relative;
-      height: 800px;
       overflow: hidden;
+    }
+
+    .hero-inner {
+      position: relative;
+      height: 800px;
+      max-width: var(--content);
+      margin: 0 auto;
     }
 
     /* ─── HERO: елементи з підйомом — невидимі на старті ─── */
@@ -204,7 +236,7 @@
 
     .hero-handwriting {
       position: absolute;
-      left: 136px;
+      left: 9px;
       top: 165px;
       font-family: 'Caveat', cursive;
       font-size: 20px;
@@ -217,7 +249,7 @@
 
     .hero-element10 {
       position: absolute;
-      left: 81px;
+      left: -46px;
       top: 116px;
       width: 314px;
       height: 168px;
@@ -239,7 +271,7 @@
     .el10-dashes img { left: 0; top: 0; }
     .el10-dashes {
       clip-path: inset(0 0 0 100%);
-      transition: clip-path 0.5s ease-out;
+      transition: clip-path 0.5s cubic-bezier(0.45, 0, 0.35, 1);
     }
     .el10-dashes.drawn { clip-path: inset(0); }
     /* Стрілка: намальована заново як лінія — анімується як малювання пером */
@@ -254,7 +286,7 @@
 
     .hero-line1 {
       position: absolute;
-      left: 127px;
+      left: 0;
       top: 234px;
       width: 920px;
       font-family: 'Unbounded', sans-serif;
@@ -267,7 +299,7 @@
 
     .hero-line2 {
       position: absolute;
-      left: 127px;
+      left: 0;
       top: 304px;
       white-space: nowrap;
       font-family: 'Unbounded', sans-serif;
@@ -281,7 +313,7 @@
     /* Brush — inline SVG container */
     .hero-brush {
       position: absolute;
-      left: 40px;
+      left: -87px;
       top: 371px;
       pointer-events: none;
       z-index: 1;
@@ -289,7 +321,7 @@
 
     .hero-line3 {
       position: absolute;
-      left: 127px;
+      left: 0;
       top: 374px;
       white-space: nowrap;
       font-family: 'Unbounded', sans-serif;
@@ -303,7 +335,7 @@
 
     .hero-tagline {
       position: absolute;
-      right: 80px;
+      right: 0;
       top: 543px;
       width: 320px;
       font-family: 'Inter', sans-serif;
@@ -314,20 +346,20 @@
       line-height: 1.5;
     }
 
-    /* ABOUT */
+    /* ─── ABOUT ─── */
     .about {
       position: relative;
-      padding: 120px 80px 130px;
-      border-top: 1px solid var(--gray);
+      padding-top: 160px;
+      padding-bottom: 180px;
     }
 
     .about-content {
-      max-width: 1040px;
+      max-width: var(--content);
       margin: 0 auto;
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: 80px;
+      gap: 120px;
     }
 
     .about-avatar {
@@ -347,10 +379,59 @@
       transition: opacity 0.3s ease-out;
     }
 
-    .about-avatar .avatar-default { opacity: 1; }
-    .about-avatar .avatar-hover   { opacity: 0; }
-    .about-avatar:hover .avatar-default { opacity: 0; }
-    .about-avatar:hover .avatar-hover   { opacity: 1; }
+    /* ─── HOVER: бейдж «Open to collaboration» + лінії руху ─── */
+    .avatar-badge {
+      position: absolute;
+      left: 1%;
+      top: 11%;
+      z-index: 3;
+      background: var(--accent);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.8;
+      white-space: nowrap;
+      padding: 8px 12px;
+      border-radius: 12px;
+      opacity: 0;
+      transform: rotate(-13.66deg) scale(0.85) translateY(6px);
+      transform-origin: bottom right;
+      transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.34, 1.5, 0.64, 1);
+      pointer-events: none;
+    }
+    .about-avatar:hover .avatar-badge {
+      opacity: 1;
+      transform: rotate(-13.66deg) scale(1) translateY(0);
+    }
+
+    .avatar-lines {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      overflow: visible;
+    }
+    /* Лінії руху — намальовані штрихи, що «бризкають» від персонажа */
+    .avatar-lines path {
+      fill: var(--gray);
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.2) rotate(-8deg);
+      transition: opacity 0.22s ease,
+                  transform 0.5s cubic-bezier(0.22, 1.7, 0.45, 1);
+    }
+    .about-avatar:hover .avatar-lines path {
+      opacity: 1;
+      transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    .about-avatar:hover .avatar-lines path:nth-child(1) { transition-delay: 0.05s; }
+    .about-avatar:hover .avatar-lines path:nth-child(2) { transition-delay: 0.12s; }
+    .about-avatar:hover .avatar-lines path:nth-child(3) { transition-delay: 0.17s; }
+    .about-avatar:hover .avatar-lines path:nth-child(4) { transition-delay: 0.03s; }
+    .about-avatar:hover .avatar-lines path:nth-child(5) { transition-delay: 0.09s; }
+    .about-avatar:hover .avatar-lines path:nth-child(6) { transition-delay: 0.15s; }
 
     .about-description {
       flex: 1 0 0;
@@ -368,11 +449,51 @@
 
     .about-title {
       font-family: 'Unbounded', sans-serif;
-      font-weight: 800;
-      font-size: 32px;
+      font-weight: 700;
+      font-size: 40px;
       line-height: 1.15;
-      letter-spacing: -0.64px;
+      letter-spacing: -0.8px;
       color: var(--dark);
+    }
+    .about-title .accent { color: var(--accent); }
+
+    /* Слова заголовка виїжджають знизу по черзі */
+    .about-title .w {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.34, 1.2, 0.64, 1);
+    }
+    .about.visible .about-title .w { opacity: 1; transform: none; }
+    .about.visible .about-title .w1 { transition-delay: 0.05s; }
+    .about.visible .about-title .w2 { transition-delay: 0.20s; }
+    .about.visible .about-title .w3 { transition-delay: 0.32s; }
+
+    /* Підкреслення-розчерк під «and creative.» */
+    .about-title .underlined {
+      position: relative;
+      display: inline-block;
+    }
+    .about-swoosh {
+      position: absolute;
+      left: -3%;
+      bottom: -11px;
+      width: 106%;
+      height: 22px;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .about-swoosh path {
+      stroke: #D77008;
+      stroke-width: 5;
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+    .about.visible .about-swoosh path {
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.75s cubic-bezier(0.45, 0, 0.35, 1) 0.75s;
     }
 
     .about-body {
@@ -408,6 +529,7 @@
       transition: color 0.25s ease;
     }
 
+    /* Базова лінія під лінком */
     .about-link .link-line {
       display: block;
       height: 1px;
@@ -417,6 +539,7 @@
       overflow: hidden;
       transition: background 0.25s ease;
     }
+    /* Акцентна лінія «пробігає» зліва направо поверх базової */
     .about-link .link-line::after {
       content: '';
       position: absolute;
@@ -427,6 +550,7 @@
       transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* Hover: підйом + акцентний колір + тінь + пробіг лінії */
     .about-link:hover,
     .about-link:focus-visible {
       transform: translateY(-2px);
@@ -440,8 +564,8 @@
 
     /* ─── HOW I WORK ─── */
     .how {
-      border-top: 1px solid var(--gray);
-      padding: 80px 120px 160px;
+      padding-top: 160px;
+      padding-bottom: 180px;
       display: flex;
       flex-direction: column;
       gap: 80px;
@@ -473,18 +597,22 @@
       gap: 28px;
       cursor: default;
       position: relative;
+      /* overflow видимий, щоб іскорки виглядали за межі картки */
       transition: transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1),
                   box-shadow 0.4s ease;
     }
+    /* Hover: картка нахиляється і піднімається */
     .how-card:hover {
       transform: translateY(-8px) rotate(-1.6deg);
       box-shadow: 0 18px 40px rgba(181, 79, 11, 0.14);
       z-index: 2;
     }
+    /* Сусідні картки нахиляються в інший бік — «жива» стопка */
     .how-cards:hover .how-card:not(:hover) {
       transform: rotate(0.5deg);
     }
 
+    /* ─── ДЕКОРАТИВНІ ІСКОРКИ ─── */
     .how-sparks {
       position: absolute;
       inset: -26px;
@@ -502,14 +630,20 @@
     .how-sparks .s2 { top: 24px; right: 2px;  }
     .how-sparks .s3 { bottom: 8px; left: 6px; }
     .how-sparks .s4 { bottom: 34px; left: -2px; }
-    .how-card:hover .spark {
+
+    .how-card:hover .spark,
+    .case-card:not(.case-blocked):hover .spark {
       opacity: 1;
       transform: scale(1) rotate(0deg);
     }
-    .how-card:hover .s1 { transition-delay: 0.04s; }
-    .how-card:hover .s2 { transition-delay: 0.10s; }
-    .how-card:hover .s3 { transition-delay: 0.07s; }
-    .how-card:hover .s4 { transition-delay: 0.14s; }
+    .how-card:hover .s1,
+    .case-card:not(.case-blocked):hover .s1 { transition-delay: 0.04s; }
+    .how-card:hover .s2,
+    .case-card:not(.case-blocked):hover .s2 { transition-delay: 0.10s; }
+    .how-card:hover .s3,
+    .case-card:not(.case-blocked):hover .s3 { transition-delay: 0.07s; }
+    .how-card:hover .s4,
+    .case-card:not(.case-blocked):hover .s4 { transition-delay: 0.14s; }
 
     .how-card-header {
       display: flex;
@@ -594,19 +728,20 @@
 
     /* ─── WORK ─── */
     .work {
-      border-top: 1px solid var(--gray);
-      padding: 60px 80px 160px;
+      padding-top: 160px;
+      padding-bottom: 180px;
       display: flex;
       flex-direction: column;
       gap: 80px;
     }
 
-    .section-label {
-      font-family: 'Inter', sans-serif;
-      font-weight: 500;
-      font-size: 11px;
-      letter-spacing: 1.54px;
-      color: var(--dark-700);
+    .work-title {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 700;
+      font-size: 40px;
+      line-height: 1.15;
+      letter-spacing: -0.8px;
+      color: var(--dark);
       text-transform: uppercase;
     }
 
@@ -616,7 +751,9 @@
 
     .case-card {
       background: var(--bg-card);
+      border: 2px solid var(--accent);
       border-radius: 24px;
+      height: 558px;
       padding: 24px 48px 40px;
       display: flex;
       flex-direction: column;
@@ -624,16 +761,19 @@
       text-decoration: none;
       color: var(--dark);
       flex: 1;
-      overflow: hidden;
       position: relative;
-      transition: transform 0.2s ease;
+      transition: transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1),
+                  box-shadow 0.4s ease;
     }
 
+    /* Hover як у картках «Як я працюю», але без нахилу */
     .case-card:not(.case-blocked):hover {
-      transform: translateY(-6px);
-      box-shadow: 0 24px 56px rgba(0,0,0,0.09);
+      transform: translateY(-8px);
+      box-shadow: 0 18px 40px rgba(181, 79, 11, 0.14);
+      z-index: 2;
     }
-    .case-card.wide  { flex: none; width: 588px; }
+    /* обидві картки рівні: (1200 - 24) / 2 = 588 */
+    .case-card.wide  { flex: 1; }
 
     /* Стрілка: вилітає вгору-вправо і повертається */
     @keyframes arrow-shoot {
@@ -712,23 +852,16 @@
       justify-content: space-between;
     }
 
-    .case-num {
-      font-family: 'Unbounded', sans-serif;
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 1.1px;
-      color: var(--dark-700);
-    }
-
+    .case-num,
     .case-year {
       font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      font-size: 12px;
+      font-weight: 700;
+      font-size: 14px;
       color: var(--dark-700);
     }
 
     .case-cover {
-      height: 340px;
+      height: 269px;
       border-radius: 12px;
       overflow: hidden;
       flex-shrink: 0;
@@ -740,7 +873,13 @@
       object-fit: cover;
     }
 
-    .case-info { display: flex; flex-direction: column; gap: 24px; }
+    .case-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex: 1;
+      min-height: 0;
+    }
 
     .case-title-row {
       display: flex;
@@ -763,41 +902,50 @@
       font-family: 'Inter', sans-serif;
       font-weight: 400;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.45;
       color: var(--dark-700);
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .case-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .case-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
 
     .tag {
+      background: var(--accent);
+      color: var(--bg);
       border-radius: 100px;
       padding: 6px 10px;
       font-size: 11px;
       font-weight: 500;
-      color: var(--dark);
       white-space: nowrap;
       font-family: 'Inter', sans-serif;
     }
 
-    .tag-purple { background: var(--purple-200); font-size: 10px; font-weight: 400; }
-    .tag-blue   { background: var(--blue-200); }
-    .tag-green  { background: var(--green-200); }
-
     /* ─── CONTACT ─── */
     .contact {
       background: var(--bg-card);
-      position: relative;
-      height: 540px;
       overflow: hidden;
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
+    }
+
+    .contact-inner {
+      position: relative;
+      height: 539px;
+      max-width: var(--content);
+      margin: 0 auto;
     }
 
     .contact-left {
       position: absolute;
-      left: 80px;
+      left: 0;
       top: 80px;
-      width: 580px;
+      width: auto;
       display: flex;
       flex-direction: column;
       gap: 40px;
@@ -811,12 +959,13 @@
       letter-spacing: -1.04px;
       color: var(--dark);
     }
+    .contact-title span { white-space: nowrap; }
 
     .contact-email-wrap {
       display: flex;
       flex-direction: column;
       gap: 5px;
-      margin-top: 120px;
+      margin-top: 160px;
     }
 
     .contact-email {
@@ -864,37 +1013,46 @@
 
     .contact-char {
       position: absolute;
-      right: 73px;
-      top: 99px;
+      right: 0;
+      top: 80px;
       width: 306px;
       height: 354px;
       object-fit: contain;
     }
 
-    .contact-philosophy {
+    /* Бульбашка-мазок з текстом */
+    .contact-bubble {
       position: absolute;
-      left: 858px;
-      top: 70px;
-      width: 297px;
+      left: 790px;
+      top: 92px;
+      width: 210px;
+      height: 80px;
     }
-
-    .contact-philosophy img { width: 100%; }
-
-    .contact-resonates {
+    .contact-bubble img {
       position: absolute;
-      left: 798px;
-      top: 245px;
-      width: 265px;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
-
-    .contact-resonates img { width: 100%; }
+    .contact-bubble p {
+      position: absolute;
+      left: 24px;
+      top: 15px;
+      width: 172px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1.25;
+      color: var(--bg-card);
+    }
 
     .contact-arrows {
       position: absolute;
-      left: 468px;
-      top: 221px;
-      width: 371px;
-      height: 238px;
+      left: 411px;
+      top: 148px;
+      width: 525px;
+      height: 263px;
       object-fit: contain;
     }
 
@@ -903,12 +1061,9 @@
       border-top: 1px solid var(--gray);
       background: var(--bg-card);
       height: 72px;
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 80px;
     }
 
     footer p {
@@ -923,11 +1078,13 @@
 
     /* ─── Планшет / малий ноутбук ─── */
     @media (max-width: 1150px) {
-      nav { padding: 20px 40px; flex-wrap: wrap; gap: 12px; }
+      :root { --pad: 40px; }
+      nav { padding-top: 20px; padding-bottom: 20px; flex-wrap: wrap; gap: 12px; }
       .nav-links { gap: 32px; }
 
       /* HERO: зі "схеми з координатами" переходимо у звичайний потік */
-      .hero { height: auto; padding: 48px 40px 72px; }
+      .hero { height: auto; padding: 48px 0 72px; }
+      .hero-inner { height: auto; }
       .hero-handwriting,
       .hero-line1, .hero-line2, .hero-line3,
       .hero-tagline {
@@ -953,7 +1110,7 @@
       .hero-tagline { margin-top: 28px; text-align: left; max-width: 420px; }
 
       /* ABOUT */
-      .about { height: auto; padding: 72px 40px; }
+      .about { height: auto; padding-top: 72px; padding-bottom: 72px; }
       .about-content {
         position: static;
         transform: none;
@@ -962,21 +1119,23 @@
         gap: 40px;
       }
       .about-avatar { width: 320px; height: 320px; }
-      .about-title { font-size: 28px; letter-spacing: -0.56px; }
+      .about-title { font-size: 32px; letter-spacing: -0.64px; }
       .about-description { width: 100%; max-width: 640px; }
 
       /* HOW: 2×2 замість 4 в ряд */
-      .how { padding: 60px 40px 96px; gap: 48px; }
-      .how-title { font-size: 32px; }
+      .how { padding-top: 60px; padding-bottom: 96px; gap: 48px; }
+      .how-title, .work-title { font-size: 32px; }
       .how-cards { flex-wrap: wrap; }
       .how-card { flex: 1 1 calc(50% - 12px); min-width: 260px; height: auto; min-height: 300px; }
+      /* На тач-екранах нахил і іскорки не потрібні */
       .how-cards:hover .how-card:not(:hover) { transform: none; }
 
       /* WORK */
-      .work { padding: 48px 40px 96px; gap: 56px; }
+      .work { padding-top: 48px; padding-bottom: 96px; gap: 56px; }
 
       /* CONTACT: ховаємо декор, лишаємо суть */
-      .contact { height: auto; padding: 64px 40px; }
+      .contact { height: auto; padding: 64px 0; }
+      .contact-inner { height: auto; position: static; }
       .contact-left { position: static; width: auto; max-width: 580px; }
       .contact-email-wrap { margin-top: 56px; }
       .contact-philosophy, .contact-resonates, .contact-arrows { display: none; }
@@ -992,17 +1151,19 @@
     /* ─── Планшет портретний ─── */
     @media (max-width: 900px) {
       .work-row { flex-direction: column; }
+      .case-card { height: auto; }
       .case-card.wide { width: auto; flex: 1; }
     }
 
     /* ─── Телефон ─── */
     @media (max-width: 640px) {
-      nav { padding: 14px 20px; }
+      :root { --pad: 16px; }
+      nav { padding-top: 14px; padding-bottom: 14px; }
       .nav-links { gap: 18px; }
       .nav-logo, .nav-links a, .nav-cv-btn, .lang-btn { font-size: 13px; }
       .lang-btn { padding: 4px 10px; }
 
-      .hero { padding: 36px 20px 56px; }
+      .hero { padding: 36px 0 56px; }
       .hero-handwriting { font-size: 18px; }
       .hero-line1, .hero-line2, .hero-line3 {
         font-size: 30px;
@@ -1011,23 +1172,24 @@
       .hero-line3 { padding: 2px 10px; border-radius: 8px; }
       .hero-tagline { font-size: 15px; }
 
-      .about { padding: 48px 20px 56px; }
+      .about { padding-top: 48px; padding-bottom: 56px; }
       .about-avatar { width: 220px; height: 220px; }
-      .about-title { font-size: 24px; letter-spacing: -0.48px; }
+      .about-title { font-size: 26px; letter-spacing: -0.52px; }
+      .about-swoosh { bottom: -9px; height: 16px; }
       .about-body { font-size: 15px; }
       .about-links { gap: 32px; flex-wrap: wrap; }
 
-      .how { padding: 48px 20px 64px; gap: 36px; }
-      .how-title { font-size: 26px; }
+      .how { padding-top: 48px; padding-bottom: 64px; gap: 36px; }
+      .how-title, .work-title { font-size: 26px; }
       .how-card { flex: 1 1 100%; min-height: 0; }
       .how-card:hover { transform: translateY(-4px); }
       .how-sparks { display: none; }
 
-      .work { padding: 40px 20px 64px; gap: 40px; }
+      .work { padding-top: 40px; padding-bottom: 64px; gap: 40px; }
       .case-card { padding: 20px 20px 32px; }
       .case-cover { height: 220px; }
 
-      .contact { padding: 48px 20px 56px; }
+      .contact { padding-top: 48px; padding-bottom: 56px; }
       .contact-title { font-size: 30px; letter-spacing: -0.6px; }
       .contact-email-wrap { margin-top: 40px; }
       .contact-email { font-size: 16px; word-break: break-all; }
@@ -1039,7 +1201,8 @@
         height: auto;
         flex-direction: column;
         gap: 6px;
-        padding: 16px 20px;
+        padding-top: 16px;
+        padding-bottom: 16px;
         text-align: center;
       }
     }
@@ -1048,13 +1211,13 @@
 <body>
 
 <!-- ─── NAV ─── -->
-<nav>
+<nav class="grid-pad">
   <a href="#" class="nav-logo">Kateryna Kovalenko</a>
   <div class="nav-links">
     <a href="#about" data-en="About" data-ua="Про мене">About</a>
     <a href="#work" data-en="Work" data-ua="Роботи">Work</a>
     <a href="#contact" data-en="Contact" data-ua="Контакти">Contact</a>
-    <a href="kateryna-kovalenko-designer-ux-ui.pdf" download class="nav-cv-btn">
+    <a href="kateryna-kovalenko-designer-ux-ui.pdf" target="_blank" rel="noopener" class="nav-cv-btn">
       <span data-en="Resume" data-ua="Резюме">Resume</span>
       <span class="cv-icon">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2V9M7 9L4.5 6.5M7 9L9.5 6.5M2.5 11.5H11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1066,6 +1229,7 @@
 
 <!-- ─── HERO ─── -->
 <section class="hero">
+<div class="hero-inner">
   <!-- STEP 1: "Hi, I'm Kateryna and" text appears FIRST -->
   <p class="hero-handwriting"
      data-en="Hi, I'm Kateryna and"
@@ -1108,22 +1272,31 @@
      data-ua="Дизайн на перетині логіки, естетики та продуктового мислення.">
     Design at the intersection of logic, aesthetics, and product thinking.
   </p>
+</div>
 </section>
 
-<!-- ABOUT -->
-<section class="about reveal" id="about">
+<!-- ─── ABOUT ─── -->
+<section class="about reveal grid-pad grid-line" id="about">
   <div class="about-content">
     <div class="about-avatar">
-      <img class="avatar-default" src="property-1-default.svg" alt="Kateryna Kovalenko">
-      <img class="avatar-hover"   src="property-1-variant2.svg" alt="Open to collaboration">
+      <img class="avatar-default" src="about-avatar.svg" alt="Kateryna Kovalenko">
+      <svg class="avatar-lines" viewBox="43 0 339 382" fill="none" aria-hidden="true">
+        <path style="--dx:10px; --dy:-6px" d="M124.9 205.9 L123.6 208.2 L122.3 210.5 L121.2 213.0 L120.2 215.6 L119.4 218.2 L118.8 220.8 L118.3 223.5 L118.0 226.1 L117.8 228.7 L117.7 231.3 L117.8 233.9 L118.0 236.5 L118.3 239.0 L118.6 241.6 L119.0 244.2 L119.5 246.8 L120.0 249.4 L120.8 252.2 L122.0 254.8 L123.5 257.2 L124.8 259.6 L126.7 258.9 L126.1 256.1 L125.2 253.4 L124.3 250.9 L123.6 248.5 L123.0 246.1 L122.6 243.6 L122.3 241.1 L122.0 238.7 L121.8 236.2 L121.7 233.7 L121.7 231.3 L121.8 228.9 L122.1 226.5 L122.5 224.1 L123.0 221.8 L123.6 219.5 L124.5 217.1 L125.4 214.8 L126.5 212.4 L127.5 209.9 L128.2 207.2Z"/>
+        <path style="--dx:16px; --dy:-8px" d="M38.7 265.7 L41.9 265.6 L45.0 265.6 L48.1 265.5 L51.2 265.4 L54.2 265.3 L57.3 265.4 L60.3 265.4 L63.4 265.6 L66.4 265.8 L69.4 266.0 L72.5 266.2 L75.5 266.5 L78.5 266.9 L81.5 267.4 L84.5 267.9 L87.5 268.6 L90.6 269.2 L93.7 269.6 L96.8 269.8 L99.8 270.2 L102.8 271.0 L103.3 268.9 L100.3 268.0 L97.2 267.3 L94.2 266.7 L91.2 266.0 L88.3 265.2 L85.2 264.5 L82.1 263.9 L79.1 263.3 L76.0 262.8 L72.9 262.4 L69.8 262.1 L66.7 261.8 L63.6 261.5 L60.5 261.4 L57.4 261.2 L54.2 261.2 L51.1 261.2 L47.9 261.3 L44.8 261.5 L41.7 261.8 L38.6 262.0Z"/>
+        <path style="--dx:18px; --dy:-6px" d="M51.8 308.8 L54.2 308.0 L56.5 307.1 L58.6 306.1 L60.8 305.2 L63.0 304.4 L65.2 303.6 L67.5 303.0 L69.8 302.4 L72.1 301.8 L74.4 301.3 L76.7 300.7 L79.0 300.2 L81.4 299.7 L83.7 299.3 L86.1 298.9 L88.5 298.6 L90.9 298.2 L93.4 297.4 L95.6 296.4 L97.8 295.7 L100.1 295.2 L99.8 293.3 L97.4 293.7 L94.9 294.2 L92.6 294.6 L90.3 295.0 L88.0 295.2 L85.6 295.5 L83.2 295.8 L80.8 296.2 L78.3 296.5 L75.9 296.9 L73.5 297.4 L71.2 297.9 L68.8 298.5 L66.4 299.1 L64.0 299.7 L61.7 300.5 L59.3 301.3 L57.0 302.3 L54.7 303.3 L52.5 304.5 L50.4 305.7Z"/>
+        <path style="--dx:-12px; --dy:10px" d="M293.9 121.3 L295.2 123.5 L296.6 125.6 L298.1 127.5 L299.5 129.3 L300.9 131.2 L302.1 133.1 L303.2 135.1 L304.3 137.1 L305.3 139.2 L306.2 141.3 L307.1 143.4 L308.0 145.5 L308.7 147.6 L309.4 149.9 L310.1 152.1 L310.6 154.4 L311.2 156.8 L312.1 159.1 L313.2 161.2 L314.0 163.3 L314.6 165.6 L316.6 165.1 L316.1 162.8 L315.5 160.4 L315.0 158.1 L314.5 155.9 L314.0 153.6 L313.5 151.2 L312.9 148.9 L312.3 146.6 L311.6 144.2 L310.7 141.9 L309.9 139.7 L308.9 137.5 L307.9 135.3 L306.9 133.1 L305.7 131.0 L304.4 128.8 L303.0 126.8 L301.5 124.8 L299.9 122.9 L298.3 121.1 L296.6 119.4Z"/>
+        <path style="--dx:-16px; --dy:12px" d="M331.9 163.4 L331.6 159.7 L331.1 156.1 L330.7 152.7 L330.5 149.4 L330.5 146.1 L330.8 142.8 L331.1 139.5 L331.6 136.3 L332.2 133.1 L332.8 129.9 L333.6 126.7 L334.4 123.6 L335.4 120.4 L336.4 117.3 L337.6 114.2 L338.7 111.2 L340.0 108.1 L341.3 105.0 L342.6 101.9 L343.9 98.7 L344.8 95.4 L341.6 94.3 L340.2 97.3 L338.8 100.3 L337.4 103.3 L336.1 106.5 L334.8 109.6 L333.6 112.8 L332.5 116.0 L331.5 119.2 L330.5 122.5 L329.7 125.8 L329.0 129.1 L328.4 132.4 L327.9 135.7 L327.5 139.1 L327.1 142.5 L326.9 145.9 L326.8 149.4 L326.9 153.1 L327.6 156.8 L328.7 160.3 L329.7 163.8Z"/>
+        <path style="--dx:-16px; --dy:4px" d="M383.0 160.2 L381.0 160.2 L379.1 160.2 L377.0 160.4 L374.8 160.6 L372.7 161.0 L370.5 161.4 L368.4 162.0 L366.4 162.7 L364.4 163.4 L362.5 164.2 L360.6 165.1 L358.7 166.1 L356.9 167.0 L355.0 168.0 L353.2 169.1 L351.4 170.1 L349.5 171.3 L347.7 172.6 L346.1 174.3 L344.7 176.2 L343.3 177.9 L344.7 179.3 L346.5 178.0 L348.3 176.6 L349.9 175.3 L351.5 174.2 L353.2 173.1 L354.9 172.2 L356.7 171.2 L358.5 170.3 L360.4 169.5 L362.2 168.7 L364.0 167.9 L365.9 167.2 L367.7 166.5 L369.6 166.0 L371.5 165.5 L373.4 165.1 L375.3 164.8 L377.4 164.7 L379.5 164.6 L381.8 164.0 L383.7 163.0Z"/>
+      </svg>
+      <span class="avatar-badge" data-en="Open to collaboration" data-ua="Відкрита до співпраці">Open to collaboration</span>
     </div>
 
     <div class="about-description">
       <div class="about-texts">
-        <h2 class="about-title"
-            data-en="My approach is both analytical and creative."
-            data-ua="Мій підхід — аналітичний і водночас творчий.">
-          My approach is both analytical and creative.
+        <h2 class="about-title">
+          <span class="w w1" data-en="My approach is both" data-ua="Мій підхід —">My approach is both</span>
+          <span class="w w2 accent" data-en="analytical" data-ua="аналітичний">analytical</span>
+          <span class="w w3"><span data-en="and" data-ua="і водночас">and</span> <span class="underlined"><span data-en="creative." data-ua="творчий.">creative.</span><svg class="about-swoosh" viewBox="0 0 260 22" fill="none" aria-hidden="true"><path pathLength="1" d="M5 13.5C48 7.5 96 4.5 143 5.2c34 .5 71 2.8 112 8.6"/></svg></span></span>
         </h2>
         <p class="about-body"
            data-en="I research before I design, test before I deliver. I think of a product as a system — every screen has a reason to be exactly as it is."
@@ -1143,7 +1316,7 @@
       </div>
 
       <div class="about-links">
-        <a href="kateryna-kovalenko-designer-ux-ui.pdf" download class="about-link"><span data-en="Download CV" data-ua="Завантажити CV">Download CV</span><i class="link-line"></i></a>
+        <a href="kateryna-kovalenko-designer-ux-ui.pdf" target="_blank" rel="noopener" class="about-link"><span data-en="Resume" data-ua="Резюме">Resume</span><i class="link-line"></i></a>
         <a href="https://www.linkedin.com/in/kateryna-kovalenko-design/" target="_blank" rel="noopener" class="about-link"><span>LinkedIn</span><i class="link-line"></i></a>
         <a href="https://www.behance.net/abc87e68" target="_blank" rel="noopener" class="about-link"><span>Behance</span><i class="link-line"></i></a>
       </div>
@@ -1152,7 +1325,7 @@
 </section>
 
 <!-- ─── HOW I WORK ─── -->
-<section class="how reveal">
+<section class="how reveal grid-pad grid-line">
   <h2 class="how-title"
       data-en="How I approach my work"
       data-ua="Як я підхожу до роботи">
@@ -1255,12 +1428,18 @@
 </section>
 
 <!-- ─── WORK ─── -->
-<section class="work reveal" id="work">
-  <p class="section-label" data-en="SELECTED WORK" data-ua="ВИБРАНІ РОБОТИ">SELECTED WORK</p>
+<section class="work reveal grid-pad grid-line" id="work">
+  <h2 class="work-title" data-en="SELECTED WORK" data-ua="ВИБРАНІ РОБОТИ">SELECTED WORK</h2>
 
   <div class="work-grid">
     <div class="work-row">
       <a href="case-99problems.html" class="case-card">
+      <div class="how-sparks" aria-hidden="true">
+        <svg class="spark s1" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s2" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s3" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s4" width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
+      </div>
         <div class="case-header">
           <span class="case-num">01</span>
           <span class="case-year">2025</span>
@@ -1279,14 +1458,20 @@
             A support platform for people with Multiple Sclerosis (MS), helping users connect with the community, share experiences, access essential information, and stay informed about treatments and research.
           </p>
           <div class="case-tags">
-            <span class="tag tag-purple">B2C</span>
-            <span class="tag tag-blue">Mobile</span>
-            <span class="tag tag-green">HealthTech</span>
+            <span class="tag">B2C</span>
+            <span class="tag">Mobile</span>
+            <span class="tag">HealthTech</span>
           </div>
         </div>
       </a>
 
       <a href="case-ecotracker.html" class="case-card wide">
+      <div class="how-sparks" aria-hidden="true">
+        <svg class="spark s1" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s2" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s3" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s4" width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
+      </div>
         <div class="case-header">
           <span class="case-num">02</span>
           <span class="case-year">2025</span>
@@ -1305,9 +1490,9 @@
             EcoTracker — A sustainable lifestyle app that helps users understand, track, and reduce their carbon footprint through personalized insights, eco-friendly challenges, and progress monitoring.
           </p>
           <div class="case-tags">
-            <span class="tag tag-purple">B2C</span>
-            <span class="tag tag-blue">Mobile</span>
-            <span class="tag tag-green">GreenTech</span>
+            <span class="tag">B2C</span>
+            <span class="tag">Mobile</span>
+            <span class="tag">GreenTech</span>
           </div>
         </div>
       </a>
@@ -1315,6 +1500,12 @@
 
     <div class="work-row">
       <a href="javascript:void(0)" class="case-card case-blocked">
+      <div class="how-sparks" aria-hidden="true">
+        <svg class="spark s1" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s2" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s3" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s4" width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
+      </div>
         <div class="case-overlay">
           <div class="case-overlay-badge">
             <div class="case-overlay-lock">
@@ -1346,14 +1537,20 @@
             MotiMich — A motivational task management app for children and parents, designed to turn everyday responsibilities into engaging challenges through rewards, progress tracking, and family collaboration.
           </p>
           <div class="case-tags">
-            <span class="tag tag-purple">B2C</span>
-            <span class="tag tag-blue">Mobile</span>
-            <span class="tag tag-green">EdTech</span>
+            <span class="tag">B2C</span>
+            <span class="tag">Mobile</span>
+            <span class="tag">EdTech</span>
           </div>
         </div>
       </a>
 
       <a href="javascript:void(0)" class="case-card wide case-blocked">
+      <div class="how-sparks" aria-hidden="true">
+        <svg class="spark s1" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s2" width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s3" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 13.9 9.1 21.5 11l-7.6 1.9L12 20.5l-1.9-7.6L2.5 11l7.6-1.9z" fill="currentColor"/></svg>
+        <svg class="spark s4" width="9" height="9" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
+      </div>
         <div class="case-overlay">
           <div class="case-overlay-badge">
             <div class="case-overlay-lock">
@@ -1385,9 +1582,9 @@
             MindFulMood — A psychological support platform that helps people access mental health resources, connect with therapists, and improve emotional well-being through a simple and accessible digital experience.
           </p>
           <div class="case-tags">
-            <span class="tag tag-purple">B2B2C</span>
-            <span class="tag tag-blue">Web</span>
-            <span class="tag tag-green">HealthTech</span>
+            <span class="tag">B2B2C</span>
+            <span class="tag">Web</span>
+            <span class="tag">HealthTech</span>
           </div>
         </div>
       </a>
@@ -1396,11 +1593,12 @@
 </section>
 
 <!-- ─── CONTACT ─── -->
-<section class="contact reveal" id="contact">
+<section class="contact reveal grid-pad" id="contact">
+<div class="contact-inner">
   <div class="contact-left">
     <h2 class="contact-title">
-      <span data-en="Have a project" data-ua="Є ідея проєкту?">Have a project</span><br>
-      <span data-en="in mind? Let's talk." data-ua="Давайте поговоримо.">in mind? Let's talk.</span>
+      <span data-en="Have a project" data-ua="Є ідея продукту?">Have a project</span><br>
+      <span data-en="in mind? Let's talk." data-ua="Давай поговоримо.">in mind? Let's talk.</span>
     </h2>
     <div class="contact-email-wrap">
       <a href="mailto:kovalenko9054@gmail.com" class="contact-email">kovalenko9054@gmail.com →</a>
@@ -1410,24 +1608,23 @@
       <a href="https://www.linkedin.com/in/kateryna-kovalenko-design/" target="_blank" data-en="LinkedIn" data-ua="LinkedIn">LinkedIn</a>
       <a href="https://www.behance.net/abc87e68" target="_blank" data-en="Behance" data-ua="Behance">Behance</a>
       <a href="https://dribbble.com/Katay11" target="_blank" data-en="Dribbble" data-ua="Dribbble">Dribbble</a>
-      <a href="kateryna-kovalenko-designer-ux-ui.pdf" download data-en="Download CV" data-ua="Завантажити CV">Download CV</a>
+      <a href="kateryna-kovalenko-designer-ux-ui.pdf" target="_blank" rel="noopener" data-en="Resume" data-ua="Резюме">Resume</a>
     </div>
   </div>
 
   <img class="contact-char" src="my-image-2.svg" alt="">
 
-  <div class="contact-philosophy">
-    <img id="philosophy-img" src="my-philosophy-en.svg" alt="My Philosophy">
-  </div>
-
-  <div class="contact-resonates">
-    <img id="resonates-img" src="container-en.svg" alt="">
+  <div class="contact-bubble">
+    <img src="bubble.png" alt="" aria-hidden="true">
+    <p data-en="If you feel we’re a match, let’s create something great together."
+       data-ua="Якщо відчуваєте match, то давайте спробуємо створити щось круте.">If you feel we’re a match, let’s create something great together.</p>
   </div>
 
   <img class="contact-arrows" src="arrows5.svg" alt="">
+</div>
 </section>
 
-<footer>
+<footer class="grid-pad">
   <p>© 2026 Kateryna Kovalenko</p>
   <p data-en="Designed by me. Coded with Claude." data-ua="Дизайн — мій. Код — разом з Claude.">Designed by me. Coded with Claude.</p>
 </footer>
@@ -1445,10 +1642,6 @@
     document.querySelectorAll('.el10-img').forEach(function(img) {
       img.src = lang === 'ua' ? 'element10-ua.svg' : 'element10-en.svg';
     });
-    const phil = document.getElementById('philosophy-img');
-    if (phil) phil.src = lang === 'ua' ? 'my-philosophy-ua.svg' : 'my-philosophy-en.svg';
-    const res = document.getElementById('resonates-img');
-    if (res) res.src = lang === 'ua' ? 'container-ua.svg' : 'container-en.svg';
     document.querySelector('.lang-btn').textContent = lang === 'ua' ? 'EN' : 'UA';
   }
   function toggleLang() {
@@ -1491,7 +1684,7 @@
           clearInterval(t);
           setTimeout(function() { el.classList.remove('typing'); }, 1200);
         }
-      }, 28);
+      }, 20);
     }, delay);
   }
   /* Промальовування лінії пером через stroke-dashoffset */
@@ -1506,17 +1699,17 @@
       p.style.strokeDashoffset = '0';
     }, delay);
   }
-  heroFadeOnly('.hero-handwriting', 300);
-  /* Після привітання: смужки промальовуються, потім стрілка малюється пером */
+  heroFadeOnly('.hero-handwriting', 200);
+  /* Смужки і стрілка стартують ОДНОЧАСНО одразу після привітання */
   setTimeout(function() {
     var d = document.querySelector('.el10-dashes');
     if (d) d.classList.add('drawn');
-  }, 1100);
-  drawStroke('arrow-main',   1700, 1100, 'cubic-bezier(0.45, 0, 0.35, 1)');
-  drawStroke('arrow-head-1', 2800, 180, 'ease-out');
-  drawStroke('arrow-head-2', 2950, 180, 'ease-out');
-  heroFadeUp('.hero-line1',        2400);
-  heroFadeUp('.hero-line2',        2800);
+  }, 600);
+  drawStroke('arrow-main',   600, 500, 'cubic-bezier(0.45, 0, 0.35, 1)');
+  drawStroke('arrow-head-1', 1100, 130, 'ease-out');
+  drawStroke('arrow-head-2', 1200, 130, 'ease-out');
+  heroFadeUp('.hero-line1',        1300);
+  heroFadeUp('.hero-line2',        1550);
   var p1 = document.getElementById('doodle-path-1');
   var p2 = document.getElementById('doodle-path-2');
   if (p1 && p2) {
@@ -1527,15 +1720,15 @@
     p2.style.strokeDasharray  = len2;
     p2.style.strokeDashoffset = len2;
     setTimeout(function() {
-      p1.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      p1.style.transition = 'stroke-dashoffset 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
       p1.style.strokeDashoffset = '0';
-    }, 3200);
+    }, 1800);
     setTimeout(function() {
-      p2.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      p2.style.transition = 'stroke-dashoffset 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
       p2.style.strokeDashoffset = '0';
-    }, 3600);
+    }, 2000);
   }
-  heroTypewriter('.hero-tagline', 4200);
+  heroTypewriter('.hero-tagline', 2650);
 
   /* ─── SCROLL REVEAL ─── */
   const observer = new IntersectionObserver(entries => {

@@ -28,8 +28,10 @@
       --tag-green: #CDFF8B;
       --fh:'Unbounded',sans-serif;
       --fb:'Inter',sans-serif;
-      --edge: clamp(20px, 5.5vw, 80px);
-      --gut:  clamp(20px, 8.3vw, 120px);
+      --max: 1200px;
+      /* поле = 120px, на широких екранах контент центрується в 1200 */
+      --edge: max(120px, calc(50% - 600px));
+      --gut:  var(--edge);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
@@ -38,16 +40,19 @@
     p{overflow-wrap:break-word;}
 
     /* layout helpers */
-    .sec{ position:relative; padding: 0 var(--gut); }
+    .sec{ position:relative; padding: 160px var(--gut) 180px; }
+    /* секції з рішеннями — той самий ритм, що й у 99 Problems (макети високі) */
+    .sec.sol-sec{ padding-top: 60px; padding-bottom: 144px; }
     .sec::before{ content:''; position:absolute; top:0; left:var(--edge); right:var(--edge); height:1px; background:var(--line); }
     .inner{ max-width:1200px; margin:0 auto; }
     .eyebrow{
       font-family:var(--fb); font-weight:500; font-size:11px;
       letter-spacing:0.14em; color:var(--d7); text-transform:uppercase;
     }
-    .sec-eyebrow{ padding-top:60px; margin-left:calc(var(--edge) - var(--gut)); }
 
     /* headings / text */
+    /* рівномірні рядки в заголовках — без слів-потеряшок */
+    .h, .hero-title, .impact, .role-title, .next-title, .pain-t{ text-wrap: balance; }
     .h{ font-family:var(--fh); font-weight:700; font-size:28px; line-height:1.15; letter-spacing:-0.02em; color:var(--text); }
     .h .a{ color:var(--accent); }
     .body{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
@@ -61,11 +66,10 @@
     .nav-logo{ font-family:var(--fh); font-weight:700; font-size:15px; }
 
     /* HERO */
-    .hero{ padding:60px var(--gut) 120px; }
+    .hero{ padding:60px var(--gut) 180px; }
     .hero-in{ max-width:1200px; margin:0 auto; }
     .tags{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px; }
-    .tag{ font-family:var(--fb); font-weight:500; font-size:11px; color:var(--text); border-radius:100px; padding:6px 10px; }
-    .tag.p{ background:var(--tag-purple);} .tag.b{ background:var(--tag-blue);} .tag.g{ background:var(--tag-green);}
+    .tag{ font-family:var(--fb); font-weight:500; font-size:11px; color:var(--bg); background:#B54F0B; border-radius:100px; padding:6px 10px; white-space:nowrap; }
     .hero-title{ font-family:var(--fh); font-weight:700; font-size:clamp(40px,6vw,64px); line-height:1.1; letter-spacing:-0.02em; margin-bottom:24px; }
     .hero-sub{ font-family:var(--fb); font-weight:300; font-size:18px; color:var(--d7); max-width:607px; line-height:1.5; }
     .hero-meta{ margin-top:88px; padding-top:24px; border-top:1px solid var(--line); display:flex; gap:24px; flex-wrap:wrap; }
@@ -77,11 +81,10 @@
     /* RESULT */
     /* RESULT — pixel-matched to Figma (frame 1440×831) */
     .result-sec{ position:relative; background:var(--bg); }
-    .result-wrap{ position:relative; max-width:1440px; margin:0 auto; height:831px; }
-    .r-divider{ position:absolute; left:80px; top:0; width:1280px; height:1px; background:var(--line); border:none; }
-    .r-eyebrow{ position:absolute; left:80px; top:60px; }
-    .result-left{ position:absolute; left:120px; top:180px; width:646px; }
-    .result-phones{ position:absolute; left:818px; top:61px; width:557px; height:auto; display:block; }
+    .result-wrap{ position:relative; max-width:var(--max); margin:0 auto; height:831px; }
+    .r-divider{ position:absolute; left:0; top:0; width:100%; height:1px; background:var(--line); border:none; }
+    .result-left{ position:absolute; left:0; top:180px; width:646px; }
+    .result-phones{ position:absolute; left:698px; top:61px; width:557px; height:auto; display:block; }
     .impact{ font-family:var(--fh); font-weight:700; font-size:28px; line-height:1.25; letter-spacing:-0.02em; color:var(--text); margin-bottom:120px; }
     .impact .a{ color:var(--accent); }
     .stats{ display:flex; background:var(--card); border-radius:24px; padding:40px; align-self:flex-start; }
@@ -95,9 +98,9 @@
     .mock-img{ width:100%; height:auto; display:block; }
 
     /* two-col generic */
-    .twocol{ display:grid; grid-template-columns:minmax(0,566px) minmax(0,490px); justify-content:space-between; gap:80px; align-items:end; padding:40px 0 160px; }
+    .twocol{ display:grid; grid-template-columns:minmax(0,566px) minmax(0,490px); justify-content:space-between; gap:144px; align-items:start; padding:0; }
     .twocol:has(.mock-img){ align-items:center; }
-    .twocol.sol{ display:flex; align-items:center; gap:clamp(40px,7vw,100px); padding:80px 0; }
+    .twocol.sol{ display:flex; align-items:center; gap:clamp(40px,7vw,100px); padding:0; }
     .twocol.sol .left{ flex:0 1 571px; }
     .twocol.sol .mock-img{ flex:0 1 auto; width:495px; max-width:44%; }
     .twocol.sol.img-right{ justify-content:flex-start; }
@@ -115,11 +118,19 @@
     .pain-d{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
 
     /* RESEARCH */
-    .research-in{ max-width:960px; margin:0 auto; padding:40px 0 160px; }
-    .research-head{ display:flex; flex-direction:column; gap:12px; margin-bottom:40px; max-width:710px; }
+    .research-in{ max-width:var(--max); margin:0 auto; padding:0; }
+    .research-head{
+      display:grid;
+      grid-template-columns:566px minmax(0,594px);
+      justify-content:space-between;
+      gap:40px; align-items:start;
+      margin-bottom:40px; max-width:none;
+    }
+    .research-head .h{ margin-bottom:0; }
+    .research-desc{ max-width:none; }
     .research-desc{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
     .research-card{ background:var(--card); border-radius:24px; padding:60px; }
-    .research-intro{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; max-width:550px; margin-bottom:32px; }
+    .research-intro{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.55; max-width:674px; margin-bottom:32px; }
     .comp-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
     .comp{ background:var(--white); border-radius:24px; padding:24px; display:flex; flex-direction:column; gap:28px; }
     .comp-head{ display:flex; gap:16px; align-items:flex-start; }
@@ -132,7 +143,7 @@
     .comp-block .cb-txt{ font-family:var(--fb); font-weight:300; font-size:14px; color:var(--d7); line-height:1.65; }
 
     /* MY ROLE */
-    .role-in{ padding:40px 0 160px; }
+    .role-in{ padding:0; }
     .role-title{ margin:0 0 40px; }
     .role-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
     .role-item{ display:flex; flex-direction:column; gap:12px; }
@@ -141,7 +152,7 @@
     .role-p{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
 
     /* WHAT LEARNED */
-    .learn-in{ padding:40px 0 160px; }
+    .learn-in{ padding:0; }
     .learn-title{ margin-bottom:40px; max-width:594px; }
     .learn-card{ background:var(--card); border-radius:24px; padding:60px; }
     .learn-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
@@ -151,7 +162,7 @@
     .learn-p{ font-family:var(--fb); font-weight:300; font-size:16px; color:var(--d7); line-height:1.2; }
 
     /* NEXT / FOOTER */
-    .next-in{ padding:40px 0 40px; display:flex; flex-direction:column; gap:24px; align-items:flex-start; }
+    .next-in{ padding:0; display:flex; flex-direction:column; gap:24px; align-items:flex-start; }
     .next-title{ font-family:var(--fh); font-weight:700; font-size:clamp(36px,5vw,52px); letter-spacing:-0.02em; color:var(--text); }
     .next-btn{ display:inline-flex; align-items:center; gap:8px; background:var(--text); color:#fff; padding:12px 16px; border-radius:8px; border:1px solid transparent; font-family:var(--fb); font-weight:500; font-size:14px; cursor:pointer; transition:background .25s ease, color .25s ease, border-color .25s ease, gap .25s ease; }
     .next-btn:hover{ background:#fff; border-color:var(--d7); color:var(--text); gap:12px; }
@@ -170,6 +181,7 @@
       .result-left{ position:static; width:100%; margin-bottom:40px; }
       .result-phones{ position:static; width:100%; max-width:420px; }
       .twocol, .comp-grid, .role-grid, .learn-grid{ grid-template-columns:1fr; gap:40px; }
+      .research-head{ grid-template-columns:1fr; gap:24px; }
       .twocol.sol{ flex-direction:column; align-items:stretch; gap:40px; }
       .twocol.sol .left{ flex:1 1 auto; }
       .twocol.sol .mock-img{ width:100%; max-width:100%; }
@@ -199,9 +211,9 @@
 <section class="hero">
   <div class="hero-in">
     <div class="tags">
-      <span class="tag p">B2C</span>
-      <span class="tag b" data-en="Mobile" data-ua="Мобільний">Мобільний</span>
-      <span class="tag g">GreenTech</span>
+      <span class="tag">B2C</span>
+      <span class="tag" data-en="Mobile" data-ua="Мобільний">Мобільний</span>
+      <span class="tag">GreenTech</span>
     </div>
     <h1 class="hero-title">Eco Tracker</h1>
     <p class="hero-sub" data-en="EcoTracker helps users understand how their daily habits affect the environment, track their own progress, and get personalized recommendations for a more sustainable lifestyle." data-ua="EcoTracker допомагає користувачам розуміти вплив своїх щоденних звичок на довкілля, відстежувати власний прогрес та отримувати персональні рекомендації для більш сталого способу життя.">EcoTracker допомагає користувачам розуміти вплив своїх щоденних звичок на довкілля, відстежувати власний прогрес та отримувати персональні рекомендації для більш сталого способу життя.</p>
@@ -218,7 +230,6 @@
 <section class="result-sec">
   <div class="result-wrap">
     <div class="r-divider"></div>
-    <div class="eyebrow r-eyebrow" data-en="Outcome" data-ua="Результат">Результат</div>
     <div class="result-left">
       <h2 class="impact" data-en="Research showed that <span class='a'>eco-friendliness alone isn't enough motivation.</span> So the app pairs eco-habits with <span class='a'>personal benefit and savings.</span>" data-ua="Дослідження показало, що <span class='a'>екологічність не є достатньою мотивацією.</span> Тому застосунок поєднує екозвички з <span class='a'>особистою вигодою та економією.</span>">Дослідження показало, що <span class="a">екологічність не є достатньою мотивацією.</span> Тому застосунок поєднує екозвички з <span class="a">особистою вигодою та економією.</span></h2>
       <div class="stats">
@@ -234,7 +245,6 @@
 <!-- CHALLENGE -->
 <section class="sec">
   <div class="inner">
-    <div class="eyebrow sec-eyebrow" data-en="Challenge" data-ua="Виклик">Виклик</div>
     <div class="twocol">
       <div class="left">
         <h2 class="h" data-en="In Ukraine, ecology competes with war, inflation, and everyday needs." data-ua="В Україні екологія конкурує з війною, інфляцією та повсякденними потребами.">В Україні екологія конкурує з війною, інфляцією та повсякденними потребами.</h2>
@@ -271,7 +281,6 @@
 <!-- RESEARCH -->
 <section class="sec">
   <div class="inner">
-    <div class="eyebrow sec-eyebrow" data-en="Research &amp; analytics" data-ua="Дослідження та аналітика">Дослідження та аналітика</div>
     <div class="research-in">
       <div class="research-head">
         <h2 class="h" data-en="I figured out what already works — and what Ukrainian users are missing." data-ua="Я зрозуміла, що вже працює — і чого бракує українським користувачам.">Я зрозуміла, що вже працює — і чого бракує українським користувачам.</h2>
@@ -317,9 +326,8 @@
 </section>
 
 <!-- SOLUTION 1 -->
-<section class="sec">
+<section class="sec sol-sec">
   <div class="inner">
-    <div class="eyebrow sec-eyebrow" data-en="Solution 01" data-ua="Рішення 01">Рішення 01</div>
     <div class="twocol sol img-right">
       <div class="left">
         <h2 class="h" data-en="An eco-action answers: &quot;What's in it for me?&quot;" data-ua="Екодія відповідає на питання: «Що я з цього отримаю?»">Екодія відповідає на питання: «Що я з цього отримаю?»</h2>
@@ -333,9 +341,8 @@
 </section>
 
 <!-- SOLUTION 2 (mockup left) -->
-<section class="sec">
+<section class="sec sol-sec">
   <div class="inner">
-    <div class="eyebrow sec-eyebrow" data-en="Solution 02" data-ua="Рішення 02">Рішення 02</div>
     <div class="twocol sol img-left">
       <img class="mock-img" src="group-3.3.webp" alt="Розділ Emissions — вуглецевий слід">
 
@@ -349,9 +356,8 @@
 </section>
 
 <!-- SOLUTION 3 -->
-<section class="sec">
+<section class="sec sol-sec">
   <div class="inner">
-    <div class="eyebrow sec-eyebrow" data-en="Solution 03" data-ua="Рішення 03">Рішення 03</div>
     <div class="twocol sol img-right">
       <div class="left">
         <h2 class="h" data-en="Motivation works better when it's shared." data-ua="Мотивація працює краще, коли вона спільна.">Мотивація працює краще, коли вона спільна.</h2>
@@ -367,9 +373,8 @@
 <!-- MY ROLE -->
 <section class="sec">
   <div class="inner">
-    <div class="eyebrow sec-eyebrow" data-en="My Role" data-ua="Моя роль">Моя роль</div>
     <div class="role-in">
-      <h2 class="h role-title" data-en="Product Designer (UX/UI)" data-ua="Дизайнер продукту (UX/UI)">Дизайнер продукту (UX/UI)</h2>
+      <h2 class="h role-title" data-en="My role: Product Designer (UX/UI)" data-ua="Моя роль дизайнера продукту (UX/UI)">Моя роль дизайнера продукту (UX/UI)</h2>
       <div class="role-grid">
         <div class="role-item">
           <div class="role-bar"></div>
@@ -394,7 +399,6 @@
 <!-- WHAT I LEARNED -->
 <section class="sec">
   <div class="inner">
-    <div class="eyebrow sec-eyebrow" data-en="What I Learned" data-ua="Що я навчилася">Що я навчилася</div>
     <div class="learn-in">
       <h2 class="h learn-title" data-en="When ecology isn't a priority, the right <span class='a'>choice has to be rewarding.</span>" data-ua="Коли екологія не в пріоритеті, правильний <span class='a'>вибір має бути вигідним.</span>">Коли екологія не в пріоритеті, правильний <span class="a">вибір має бути вигідним.</span></h2>
       <div class="learn-card">
@@ -423,9 +427,8 @@
 <!-- NEXT / FOOTER -->
 <section class="sec">
   <div class="inner">
-    <div class="eyebrow sec-eyebrow" data-en="Next Case" data-ua="Наступний кейс">Наступний кейс</div>
     <div class="next-in">
-      <div class="next-title">99 Problems</div>
+      <div class="next-title" data-en="Next case — 99 Problems" data-ua="Наступний кейс — 99 Problems">Наступний кейс — 99 Problems</div>
       <a class="next-btn" href="case-99problems.html">
         <span data-en="View project" data-ua="Переглянути кейс">Переглянути кейс</span>
         <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
