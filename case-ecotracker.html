@@ -216,6 +216,177 @@
       .meta-item{ min-width:100%; }
       .research-card,.learn-card{ padding:28px 20px; }
     }
+      /* ─── Телефон: та сама логіка, що й у 99 Problems ─── */
+    @media (max-width: 640px) {
+      :root { --edge: 16px; }
+
+      /* NAV */
+      nav { height: 72px; padding: 0 16px; }
+      .nav-back {
+        font-family: var(--fb);
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 1.65;
+        color: var(--d7);
+        gap: 8px;
+      }
+      .nav-back svg { width: 24px; height: 24px; }
+      .nav-logo { font-size: 15px; }
+
+      .eyebrow, .r-eyebrow { display: none !important; }
+
+      /* HERO */
+      .hero { padding: 32px 16px 40px; }
+      .tags { gap: 6px; margin-bottom: 24px; }
+      .hero-title { font-size: 36px; line-height: 1.1; letter-spacing: -0.72px; margin-bottom: 24px; }
+      .hero-sub { font-size: 18px; line-height: 1.22; max-width: none; }
+      .hero-meta { margin-top: 80px; padding-top: 24px; flex-direction: column; gap: 16px; }
+      .meta-item { flex: none !important; width: 100%; min-width: 0; gap: 6px; }
+      .meta-label { font-size: 11px; font-weight: 500; }
+      .meta-val { font-size: 16px; }
+
+      /* Загальна типографіка секцій */
+      .sec { padding: 56px 16px; }
+      .h { font-size: 20px; line-height: 1.2; letter-spacing: 0; }
+      .body { font-size: 16px; line-height: 1.2; }
+
+      /* РЕЗУЛЬТАТ */
+      .result-wrap {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        padding: 40px 16px 0;
+      }
+      .r-divider { position: static; order: -3; width: auto; margin: 0 0 40px; }
+      .result-phones {
+        position: static;
+        order: -1;
+        left: auto; top: auto;
+        width: 100%;
+        max-width: 358px;
+        margin: 0 0 40px;
+      }
+      .result-left { position: static; width: 100%; margin: 0 0 56px; }
+      .impact { font-size: 20px; line-height: 1.2; letter-spacing: 0; margin-bottom: 40px; }
+      .stats {
+        flex-direction: column;
+        align-items: center;
+        align-self: center;
+        gap: 16px;
+        width: 262px;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 32px;
+        border-radius: 24px;
+      }
+      .stat {
+        width: 198px;
+        max-width: 100%;
+        padding: 0 24px;
+        align-items: center;
+        text-align: center;
+        gap: 8px;
+      }
+      .stat + .stat { border-left: none; }
+      .stat + .stat::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 81px;
+        height: 1px;
+        background: var(--line);
+      }
+      .stat-num { font-size: 40px; line-height: 50px; }
+      .stat-desc { font-size: 11px; font-weight: 500; line-height: 1.2; text-align: center; }
+
+      /* ДВОКОЛОНКОВІ СЕКЦІЇ */
+      .twocol { grid-template-columns: 1fr; gap: 32px; padding: 0; }
+      .twocol.sol { flex-direction: column; align-items: stretch; gap: 40px; }
+      .twocol.sol .left { flex: 1 1 auto; gap: 24px; }
+      .twocol.sol .mock-img,
+      .twocol.sol.img-left .mock-img {
+        order: -1;
+        width: 100%;
+        max-width: 358px;
+      }
+
+      /* Проблеми з нумерацією */
+      .pain { gap: 12px; }
+      .pain-n { font-size: 24px; line-height: 1.2; }
+      .pain-b { gap: 8px; }
+      .pain-t { font-size: 18px; line-height: 1.2; }
+      .pain-d { font-size: 16px; line-height: 1.2; }
+
+      /* ДОСЛІДЖЕННЯ / КОНКУРЕНТИ */
+      .research-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 32px; }
+      .research-card { padding: 24px 16px; border-radius: 24px; }
+      .research-intro { font-size: 16px; line-height: 1.2; max-width: none; margin-bottom: 16px; }
+      .comp-grid { grid-template-columns: 1fr; gap: 16px; }
+      .comp { padding: 24px; border-radius: 24px; gap: 24px; }
+      .comp-head { gap: 16px; }
+      .comp-logo { width: 44px; height: 44px; }
+      .comp-name { font-size: 20px; }
+      .comp-co { font-size: 13px; }
+      .comp-blocks { gap: 24px; }
+      .comp-block .cb-lbl { font-size: 14px; }
+      .comp-block .cb-txt { font-size: 14px; line-height: 1.4; }
+
+      /* МОЯ РОЛЬ */
+      .role-title { margin: 0 0 32px; }
+      .role-grid { grid-template-columns: 1fr; gap: 32px; }
+      .role-item { gap: 12px; }
+      .role-h { font-size: 14px; }
+      .role-p { font-size: 16px; line-height: 1.2; }
+
+      /* ЧОГО НАВЧИЛАСЯ */
+      .learn-title { margin-bottom: 32px; max-width: none; }
+      .learn-card { padding: 24px 16px; border-radius: 24px; }
+      .learn-grid { grid-template-columns: 1fr; gap: 24px; }
+      .learn-item { padding: 24px; border-radius: 24px; gap: 8px; }
+      .learn-n { font-size: 24px; }
+      .learn-h { font-size: 18px; line-height: 1.2; }
+      .learn-p { font-size: 16px; line-height: 1.2; }
+
+      /* НАСТУПНИЙ КЕЙС */
+      .next-title { font-size: 24px; line-height: 1.15; letter-spacing: -0.48px; }
+      .next-btn { font-size: 14px; padding: 12px 16px; }
+
+      /* ФУТЕР */
+      footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 8px;
+        padding: 19px 16px;
+        font-size: 13px;
+      }
+    }
+
+    /* ─── Планшет 744: сітка 624 по центру, статистика в один рядок (та сама логіка, що й 99 Problems) ─── */
+    @media (min-width: 641px) and (max-width: 900px) {
+      :root { --edge: max(60px, calc(50% - 312px)); }
+
+      .impact { margin-bottom: 80px; }
+      .stats {
+        width: 100%; max-width: 624px;
+        flex-wrap: nowrap; gap: 0;
+        padding: 40px; box-sizing: border-box;
+        align-self: flex-start;
+      }
+      .stat { flex: 198 1 0; min-width: 0; padding: 0 24px; position: relative; }
+      .stat:last-child { flex: 168 1 0; }
+      .stat + .stat { border-left: none; }
+      .stat + .stat::before {
+        content: ''; position: absolute;
+        left: 0; top: 8px; bottom: 8px;
+        width: 1px; height: auto; transform: none;
+        background: var(--line);
+      }
+      .stat-num { font-size: 40px; line-height: 50px; }
+      .stat-desc { font-size: 11px; font-weight: 500; line-height: 1.2; }
+    }
   </style>
 </head>
 <body>
